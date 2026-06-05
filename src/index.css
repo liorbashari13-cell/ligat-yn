@@ -1,0 +1,108 @@
+@import "tailwindcss";
+
+/* ── Design tokens ────────────────────────────────────────────────
+   Customize brand colors / fonts here. Tailwind v4 reads @theme to
+   generate utilities (e.g. text-gold, bg-navy, font-display). */
+@theme {
+  --font-display: "Heebo", ui-sans-serif, system-ui, sans-serif;
+
+  --color-navy: #1a2a5e;
+  --color-navy-light: #24387a;
+  --color-navy-deep: #111d44;
+  --color-gold: #c9a84c;
+  --color-gold-light: #e3c878;
+  --color-gold-dark: #9c7f33;
+  --color-grass: #2d7a3a;
+  --color-grass-light: #3a9c4c;
+  --color-dark: #0d1117;
+  --color-dark-soft: #131a24;
+}
+
+:root {
+  color-scheme: dark;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-display);
+  background-color: var(--color-dark);
+  color: #ffffff;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* ── Reusable effects ─────────────────────────────────────────────
+   Used across CTAs and cards for the "Champions League" gold glow. */
+@utility glow-gold {
+  box-shadow:
+    0 0 20px rgba(201, 168, 76, 0.45),
+    0 0 48px rgba(201, 168, 76, 0.25);
+}
+
+@utility glow-gold-sm {
+  box-shadow: 0 0 14px rgba(201, 168, 76, 0.35);
+}
+
+@utility text-glow-gold {
+  text-shadow: 0 0 24px rgba(201, 168, 76, 0.55);
+}
+
+/* Animated gold sheen used by the primary CTA. */
+@keyframes gold-pulse {
+  0%,
+  100% {
+    box-shadow:
+      0 0 20px rgba(201, 168, 76, 0.45),
+      0 0 48px rgba(201, 168, 76, 0.2);
+  }
+  50% {
+    box-shadow:
+      0 0 30px rgba(201, 168, 76, 0.7),
+      0 0 70px rgba(201, 168, 76, 0.35);
+  }
+}
+
+@utility animate-gold-pulse {
+  animation: gold-pulse 2.4s ease-in-out infinite;
+}
+
+/* Slow drift for hero light rays / particles fallback. */
+@keyframes float-up {
+  0% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+  10%,
+  90% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-120px);
+    opacity: 0;
+  }
+}
+
+/* RTL number/latin runs (phones, emails) render left-to-right inline. */
+.ltr {
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Custom scrollbar — subtle, on-brand. */
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-dark);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-navy-light);
+  border-radius: 6px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gold-dark);
+}
