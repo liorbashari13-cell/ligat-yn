@@ -32,23 +32,35 @@ export async function getRegistrationCount() {
 /**
  * POST a completed registration.
  *
- * We send the body as text/plain on purpose: Apps Script web apps don't
- * answer the CORS preflight that a `application/json` content-type would
- * trigger, so a JSON content-type makes the browser block the request.
- * `e.postData.contents` is still the raw string, so JSON.parse works
- * server-side.
+ * Apps Script web apps don't expose CORS headers on their responses, so a
+ * normal (cors) fetch that tries to READ the response is blocked by the
+ * browser ("Failed to fetch"). We send the request in `no-cors` mode: the
+ * POST still reaches the script and the row is written to the sheet, but
+ * the response comes back "opaque" — we can't read its status or body.
  *
- * Returns the parsed server response, e.g.
- *   { success: true, teamNumber }  |  { success: false, message }
+ * `text/plain` keeps this a CORS "simple request" (no preflight), and the
+ * raw JSON string is still available server-side via `e.postData.contents`,
+ * so `JSON.parse` works in Code.gs.
+ *
+ * Because the response is opaque we can't read the server's
+ * { success, teamNumber } payload, so we resolve optimistically when the
+ * request completes without a network error. The "registration full" state
+ * is reflected by the GET counter (useRegistrationCount), which the form
+ * refreshes immediately after submit.
+ *
+ * @throws if the URL isn't configured, or on a genuine network failure
+ *         (offline / DNS) — both surface as an error in the form.
  */
 export async function submitRegistration(payload) {
   if (!isConfigured()) {
     throw new Error('VITE_APPS_SCRIPT_URL is not configured')
   }
-  const res = await fetch(URL, {
+  await fetch(URL, {
     method: 'POST',
+    mode: 'no-cors',
     headers: { 'Content-Type': 'text/plain;charset=utf-8' },
     body: JSON.stringify(payload),
   })
-  return res.json()
+  // Opaque response — assume success if fetch didn't throw.
+  return { success: true }
 }
