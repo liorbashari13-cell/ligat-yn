@@ -29,38 +29,30 @@ export async function getRegistrationCount() {
   }
 }
 
+// Make.com webhook that receives completed registrations.
+const MAKE_WEBHOOK_URL =
+  'https://hook.eu2.make.com/jdjmx6gg3l9pmmpd2exdedw4gpkrs43j'
+
 /**
- * POST a completed registration.
+ * POST a completed registration to the Make.com webhook.
  *
- * Apps Script web apps don't expose CORS headers on their responses, so a
- * normal (cors) fetch that tries to READ the response is blocked by the
- * browser ("Failed to fetch"). We send the request in `no-cors` mode: the
- * POST still reaches the script and the row is written to the sheet, but
- * the response comes back "opaque" — we can't read its status or body.
+ * Make webhooks expose proper CORS headers (and answer the preflight that
+ * `application/json` triggers), so a normal `cors` fetch works and we can
+ * read the response. On success Make returns the plain text `Accepted`, not
+ * JSON, so we treat any 2xx (`res.ok`) as success rather than parsing a body.
  *
- * `text/plain` keeps this a CORS "simple request" (no preflight), and the
- * raw JSON string is still available server-side via `e.postData.contents`,
- * so `JSON.parse` works in Code.gs.
- *
- * Because the response is opaque we can't read the server's
- * { success, teamNumber } payload, so we resolve optimistically when the
- * request completes without a network error. The "registration full" state
- * is reflected by the GET counter (useRegistrationCount), which the form
- * refreshes immediately after submit.
- *
- * @throws if the URL isn't configured, or on a genuine network failure
- *         (offline / DNS) — both surface as an error in the form.
+ * @throws on a non-2xx response or a genuine network failure — both surface
+ *         as an error in the form.
  */
-export async function submitRegistration(payload) {
-  if (!isConfigured()) {
-    throw new Error('VITE_APPS_SCRIPT_URL is not configured')
-  }
-  await fetch(URL, {
+export async function submitRegistration(data) {
+  const res = await fetch(MAKE_WEBHOOK_URL, {
     method: 'POST',
-    mode: 'no-cors',
-    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-    body: JSON.stringify(payload),
+    mode: 'cors',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(data),
   })
-  // Opaque response — assume success if fetch didn't throw.
+  if (!res.ok) {
+    throw new Error(`Submission failed (${res.status})`)
+  }
   return { success: true }
 }
