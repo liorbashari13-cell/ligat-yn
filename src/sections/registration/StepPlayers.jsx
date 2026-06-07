@@ -75,8 +75,8 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
         </AnimatePresence>
       </div>
 
-      {/* Add appears only when all current cards are confirmed */}
-      {allConfirmed && (
+      {/* Add appears only when all cards are confirmed and cap not yet reached */}
+      {allConfirmed && players.length < MIN_PLAYERS && (
         <button
           type="button"
           onClick={addPlayer}
