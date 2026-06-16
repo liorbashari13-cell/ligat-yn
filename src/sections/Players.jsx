@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import Section from '../components/ui/Section.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
-import Emoji from '../components/ui/Emoji.jsx'
 import { PLAYERS } from '../data/content.js'
 import { ANCHORS } from '../lib/constants.js'
 
@@ -9,29 +8,35 @@ export default function Players() {
   return (
     <Section
       id={ANCHORS.players}
-      eyebrow="ליגת העל"
+      eyebrow="ליגת העל ונבחרת ישראל"
       title="הכוכבים שתפגשו"
     >
-      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3 lg:grid-cols-4">
+      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
         {PLAYERS.map((player, i) => (
-          <Reveal key={player.name} delay={(i % 4) * 0.08}>
+          <Reveal key={player.name} delay={(i % 3) * 0.08}>
             <motion.div
               whileHover={{ y: -10 }}
               transition={{ type: 'spring', stiffness: 300, damping: 18 }}
-              className="group relative h-full overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-b from-navy/40 to-dark-soft p-6 text-center transition-all duration-300 hover:border-gold/60 hover:glow-gold"
+              className="group relative h-full overflow-hidden rounded-2xl border border-gold/30 bg-dark-soft text-center transition-all duration-300 hover:border-gold hover:glow-gold"
             >
-              {/* Placeholder portrait — football icon.
-                  // Replace placeholder with real image when received */}
-              <div className="mx-auto mb-4 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-navy-light to-navy-deep text-4xl ring-2 ring-gold/40 transition-transform duration-300 group-hover:scale-105 group-hover:ring-gold">
-                <Emoji char="⚽" />
+              <div className="aspect-[4/5] w-full overflow-hidden bg-gradient-to-b from-navy-light to-navy-deep">
+                <img
+                  src={player.image}
+                  alt={player.name}
+                  className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                />
+                {/* fade into the card so the photo blends with the info panel */}
+                <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-dark-soft to-transparent" />
               </div>
 
-              <h3 className="text-lg font-extrabold text-white">
-                {player.name}
-              </h3>
-              <p className="mt-1 text-sm font-semibold text-gold">
-                שחקן ליגת העל
-              </p>
+              <div className="relative px-3 py-4">
+                <h3 className="text-base font-extrabold text-white md:text-lg">
+                  {player.name}
+                </h3>
+                <p className="mt-1 text-sm font-semibold text-gold">
+                  {player.role}
+                </p>
+              </div>
 
               {/* gold sheen on hover */}
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-gold/10 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />

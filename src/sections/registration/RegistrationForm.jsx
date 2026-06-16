@@ -23,7 +23,7 @@ const EMPTY_TEAM = {
 }
 
 function fireConfetti() {
-  const colors = ['#c9a84c', '#e3c878', '#ffffff', '#2d7a3a']
+  const colors = ['#f6c400', '#ffd370', '#ffffff', '#2d7a3a']
   confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 }, colors })
   setTimeout(
     () => confetti({ particleCount: 80, angle: 60, spread: 70, origin: { x: 0 }, colors }),

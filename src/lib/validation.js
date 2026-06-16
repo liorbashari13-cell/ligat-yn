@@ -59,8 +59,8 @@ export function validatePlayer(player) {
     errors.fullName = 'יש להזין שם פרטי ושם משפחה'
   }
   const age = Number(player.age)
-  if (!player.age || Number.isNaN(age) || age < 14 || age > 19) {
-    errors.age = 'הגיל חייב להיות בין 14 ל-19'
+  if (!player.age || Number.isNaN(age) || age < 15 || age > 18) {
+    errors.age = 'הגיל חייב להיות בין 15 ל-18'
   }
   if (!required(player.school)) errors.school = 'נא להזין בית ספר'
   if (!GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'

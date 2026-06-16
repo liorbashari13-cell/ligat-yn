@@ -1,4 +1,4 @@
-# ליגת יראנו ניסים — Ligat Yaranu Nisim
+# ליגת הלב היהודי — Ligat HaLev HaYehudi
 
 A Hebrew **RTL** landing page for a youth football (soccer) league in Netanya, Israel. Single-page marketing site with an animated hero, live registration counter, and a multi-step team-registration form backed by Google Apps Script + Google Sheets.
 

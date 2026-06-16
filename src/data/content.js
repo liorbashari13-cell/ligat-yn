@@ -1,40 +1,35 @@
 // ── Static page content ─────────────────────────────────────────────
 
-// Premier League players the teams will meet. Images are placeholders for
-// now — see Players.jsx (// Replace placeholder with real image…).
+// Stars the teams will meet. Photos live in public/players/.
 export const PLAYERS = [
-  { name: 'עומר אצילי' },
-  { name: 'אלמוג כהן' },
-  { name: 'חן עזרא' },
-  { name: 'שיר צדק' },
-  { name: 'איתן אוזלאי' },
-  { name: 'רמי גרשון' },
-  { name: 'ירין לוי' },
+  { name: 'אייל גולאסה', role: 'שחקן עבר', image: '/players/eyal-golasa.webp' },
+  { name: 'איתן אזולאי', role: 'שחקן מכבי חיפה ונבחרת ישראל', image: '/players/itan-azulay.jpg' },
+  { name: 'אלמוג כהן', role: 'מאמן בית"ר ירושלים', image: '/players/almog-cohen.avif' },
+  { name: 'דולב חזיזה', role: 'שחקן מכבי חיפה ונבחרת ישראל', image: '/players/dolev-haziza.png' },
+  { name: 'טל בן חיים', role: 'שחקן עבר', image: '/players/tal-ben-haim.jpg' },
+  { name: 'רמי גרשון', role: 'שחקן עבר', image: '/players/rami-gershon.jpg' },
 ]
 
-// "?מה מחכה לכם" — three feature cards.
+// "?מה מחכה לכם" — prize cards.
 export const ABOUT_CARDS = [
   {
-    icon: '🏆',
-    title: 'טורניר אמיתי',
-    text: 'פורמט ליגת אלופות, קבוצות של 8 שחקנים',
-  },
-  {
-    icon: '⚽',
-    title: 'תשחקו מול הכוכבים',
-    text: 'הזוכים ישחקו מול שחקני ליגת העל',
-  },
-  {
     icon: '🎁',
-    title: 'פרסים מטורפים',
-    text: 'פרסים אישיים לכל משתתף ופרסים מיוחדים לזוכים',
+    title: 'גיפט קארדים',
+    text: 'בשווי אלפי שקלים לזוכים',
   },
-]
-
-// Tournament timeline (revealed on scroll with GSAP).
-export const TIMELINE = [
-  { step: '1', title: 'הרשמה', text: 'רישום הקבוצות נפתח — 19 מקומות בלבד' },
-  { step: '2', title: 'שלב הבתים', text: 'פורמט ליגת אלופות — משחקים מול כל הקבוצות בבית' },
-  { step: '3', title: 'נוקאאוט', text: 'רבע גמר, חצי גמר וגמר תחת זרקורים' },
-  { step: '4', title: 'הגמר הגדול', text: 'הזוכים עולים לשחק מול כוכבי ליגת העל' },
+  {
+    icon: '👕',
+    title: 'חולצות כוכבי הכדורגל',
+    text: 'לכל משתתף',
+  },
+  {
+    icon: '👟',
+    title: 'חליפת Adidas אישית',
+    text: 'חליפת כדורגל מבית Adidas לכל שחקן',
+  },
+  {
+    icon: '⭐',
+    title: 'משחק ראווה',
+    text: 'מול שחקני ליגת העל ונבחרת ישראל',
+  },
 ]

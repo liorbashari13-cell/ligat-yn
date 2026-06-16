@@ -5,16 +5,22 @@ export const MIN_PLAYERS = 8 // Change this number to update minimum players req
 export const MAX_TEAMS = 19
 
 export const LEAGUE = {
-  name: 'ליגת יראנו ניסים',
+  name: 'ליגת הלב היהודי',
   startDate: '1.7.2026',
   stadium: 'איצטדיון טוברוק, נתניה',
   email: 'ligat.yn@gmail.com',
+  phone: '053-278-7225',
+  contactPerson: 'נועם עזרא',
 }
+
+// Per-player participation fee, displayed prominently on the page.
+export const REGISTRATION_COST = 180
 
 // Section anchors (used by navbar scroll + form target).
 export const ANCHORS = {
   hero: 'hero',
   about: 'about',
+  bracket: 'bracket',
   players: 'players',
   register: 'register',
 }

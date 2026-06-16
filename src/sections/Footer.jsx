@@ -17,6 +17,15 @@ export default function Footer() {
         >
           {LEAGUE.email}
         </a>
+        <p className="text-white/70">
+          איש קשר: {LEAGUE.contactPerson} ·{' '}
+          <a
+            href={`tel:${LEAGUE.phone}`}
+            className="ltr transition-colors hover:text-gold"
+          >
+            {LEAGUE.phone}
+          </a>
+        </p>
         <p className="mt-4 text-xs text-white/40">
           © 2026 {LEAGUE.name}. כל הזכויות שמורות.
         </p>

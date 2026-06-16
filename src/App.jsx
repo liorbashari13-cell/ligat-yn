@@ -1,6 +1,7 @@
 import Navbar from './sections/Navbar.jsx'
 import Hero from './sections/Hero.jsx'
 import About from './sections/About.jsx'
+import TournamentBracket from './sections/TournamentBracket.jsx'
 import RegistrationCounter from './sections/RegistrationCounter.jsx'
 import Players from './sections/Players.jsx'
 import RegistrationForm from './sections/registration/RegistrationForm.jsx'
@@ -17,6 +18,7 @@ export default function App() {
       <main>
         <Hero />
         <About />
+        <TournamentBracket />
         <RegistrationCounter count={count} max={max} loading={loading} />
         <Players />
         <RegistrationForm full={full} onSubmitted={refresh} />

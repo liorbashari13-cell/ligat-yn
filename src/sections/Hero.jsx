@@ -4,7 +4,7 @@ import { useGsap } from '../hooks/useGsap.js'
 import GlowButton from '../components/ui/GlowButton.jsx'
 import Badge from '../components/ui/Badge.jsx'
 import Emoji from '../components/ui/Emoji.jsx'
-import { ANCHORS, LEAGUE } from '../lib/constants.js'
+import { ANCHORS, LEAGUE, REGISTRATION_COST } from '../lib/constants.js'
 
 const STADIUM_BG =
   'https://images.unsplash.com/photo-1459865264687-595d652de67e?w=1920&q=80'
@@ -90,7 +90,7 @@ export default function Hero() {
             style={{
               left: `${20 + i * 28}%`,
               background:
-                'linear-gradient(to bottom, rgba(201,168,76,0.5), transparent)',
+                'linear-gradient(to bottom, rgba(246,196,0,0.5), transparent)',
               transform: `rotate(${i % 2 === 0 ? 12 : -12}deg)`,
             }}
           />
@@ -112,37 +112,61 @@ export default function Hero() {
         variants={container}
         initial="hidden"
         animate="show"
-        className="relative z-10 mx-auto flex max-w-3xl flex-col items-center"
+        className="relative z-10 mx-auto flex max-w-6xl flex-col items-center"
       >
         <motion.img
           variants={item}
           src="/logo.png"
           alt={LEAGUE.name}
-          className="mb-8 h-28 w-28 object-contain drop-shadow-[0_0_30px_rgba(201,168,76,0.5)] md:h-36 md:w-36"
+          className="mb-8 h-28 w-28 object-contain drop-shadow-[0_0_30px_rgba(246,196,0,0.5)] md:h-36 md:w-36"
         />
 
         <motion.h1
           variants={item}
-          className="text-4xl font-black leading-tight text-white text-glow-gold md:text-7xl"
+          className="text-center font-black leading-[1.05] tracking-tight text-white text-glow-gold lg:whitespace-nowrap"
         >
-          ליגת הכדורגל של נתניה
+          <span className="block text-4xl sm:text-5xl lg:inline lg:text-5xl xl:text-6xl">
+            ליגת הכדורגל
+          </span>
+          <span className="block text-4xl sm:text-5xl lg:inline lg:text-5xl xl:text-6xl">{' '}של הלב היהודי</span>
         </motion.h1>
 
         <motion.p
           variants={item}
           className="mt-5 text-lg text-white/85 md:text-2xl"
         >
-          הקבוצה שלך יכולה לשחק מול כוכבי ליגת העל
+          <span className="block">בואו לשחק בליגת הכדורגל של הלב היהודי לנערי נתניה</span>
+          <span className="block">ולזכות בשלל פרסים יוקרתיים</span>
         </motion.p>
+
+        <motion.div variants={item} className="mt-6">
+          <span className="animate-gold-pulse inline-flex items-center gap-2 rounded-full border border-gold-accent/60 bg-gold-accent/10 px-5 py-2.5 text-sm font-bold text-gold-accent backdrop-blur-md md:text-base">
+            <Emoji char="⚡" /> וצ'אנס לשחק מול שחקני ליגת העל ונבחרת ישראל!
+          </span>
+        </motion.div>
 
         <motion.div
           variants={item}
-          className="mt-8 flex flex-wrap items-center justify-center gap-3"
+          className="mx-auto mt-6 grid w-full max-w-xl grid-cols-2 gap-3"
         >
-          <Badge icon={<Emoji char="📅" />}>
+          <Badge icon={<Emoji char="📅" />} className="w-full justify-center text-center">
             {LEAGUE.startDate} | תחילת הליגה
           </Badge>
-          <Badge icon={<Emoji char="📍" />}>{LEAGUE.stadium}</Badge>
+          <Badge icon={<Emoji char="📍" />} className="w-full justify-center text-center">
+            {LEAGUE.stadium}
+          </Badge>
+        </motion.div>
+
+        <motion.div
+          variants={item}
+          className="mx-auto mt-3 grid w-full max-w-xl grid-cols-2 gap-2"
+        >
+          <Badge icon={<Emoji char="🎯" />} variant="subtle" className="w-full justify-center text-center">
+            גילאי 15-18
+          </Badge>
+          <Badge icon={<Emoji char="💰" />} variant="subtle" className="w-full justify-center text-center">
+            עלות השתתפות: {REGISTRATION_COST}₪ לשחקן
+          </Badge>
         </motion.div>
 
         <motion.div variants={item} className="mt-10">
@@ -150,6 +174,7 @@ export default function Hero() {
             ← רשום את הקבוצה שלך!
           </GlowButton>
         </motion.div>
+
       </motion.div>
 
       {/* Scroll hint */}

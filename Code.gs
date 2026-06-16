@@ -30,10 +30,10 @@ function doPost(e) {
 
   MailApp.sendEmail({
     to: data.email,
-    subject: '✅ הקבוצה שלך נרשמה לליגת יראנו ניסים!',
+    subject: '✅ הקבוצה שלך נרשמה לליגת הלב היהודי!',
     htmlBody: `
       <div dir="rtl" style="font-family: Arial; max-width: 600px; margin: 0 auto;">
-        <h2 style="color: #1a2a5e;">!ברוכים הבאים לליגת יראנו ניסים 🏆</h2>
+        <h2 style="color: #1a2a5e;">!ברוכים הבאים לליגת הלב היהודי 🏆</h2>
         <p>שלום ${data.contactName},</p>
         <p>הקבוצה <strong>${data.teamName}</strong> נרשמה בהצלחה!</p>
         <h3>:פרטי הרישום</h3>
@@ -48,7 +48,7 @@ function doPost(e) {
         <p>.נציג שלנו יצור איתך קשר בקרוב עם פרטים נוספים</p>
         <p>!בהצלחה 🎯</p>
         <hr/>
-        <p style="color: #888; font-size: 12px;">ליגת יראנו ניסים | ligat.yn@gmail.com</p>
+        <p style="color: #888; font-size: 12px;">ליגת הלב היהודי | ligat.yn@gmail.com</p>
       </div>
     `
   });
