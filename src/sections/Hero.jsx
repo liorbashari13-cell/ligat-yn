@@ -151,9 +151,13 @@ export default function Hero() {
         >
           <Badge
             icon={<Emoji char="📅" />}
-            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-[9px] sm:!px-5 sm:!text-sm md:!text-base"
+            className="w-full justify-center text-center !px-2.5 !text-xs sm:!px-5 sm:!text-sm md:!text-base"
           >
-            {LEAGUE.startDate} | תחילת הליגה
+            <span className="sm:hidden flex flex-col items-center leading-tight">
+              <span>{LEAGUE.startDate}</span>
+              <span>תחילת הליגה</span>
+            </span>
+            <span className="hidden sm:inline whitespace-nowrap">{LEAGUE.startDate} | תחילת הליגה</span>
           </Badge>
           <Badge
             icon={<Emoji char="📍" />}
