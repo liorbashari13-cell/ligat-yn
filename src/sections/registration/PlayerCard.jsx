@@ -13,6 +13,7 @@ import { formatPhone, hasErrors, validatePlayer } from '../../lib/validation.js'
 export default function PlayerCard({
   player,
   index,
+  displayNumber,
   editing,
   onChange,
   onConfirm,
@@ -64,7 +65,7 @@ export default function PlayerCard({
       className="rounded-2xl border border-gold/40 bg-dark-soft/70 p-5"
     >
       <div className="mb-4 flex items-center justify-between">
-        <h4 className="font-extrabold text-gold">שחקן {index + 1}</h4>
+        <h4 className="font-extrabold text-gold">שחקן {displayNumber ?? index + 1}</h4>
         {canRemove && (
           <button
             type="button"

@@ -49,7 +49,7 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
       {/* Progress */}
       <div className="mb-6">
         <p className="mb-2 text-center font-bold text-white">
-          {confirmedCount} / {MIN_PLAYERS} שחקנים אושרו
+          שחקן {Math.min(confirmedCount + 2, MIN_PLAYERS + 1)} מתוך {MIN_PLAYERS + 1}
         </p>
         <ProgressBar value={confirmedCount} max={MIN_PLAYERS} />
       </div>
@@ -61,6 +61,7 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
               key={i}
               player={player}
               index={i}
+              displayNumber={i + 2}
               editing={!player.confirmed}
               onChange={(next) => updateAt(i, next)}
               onConfirm={() => confirmAt(i)}

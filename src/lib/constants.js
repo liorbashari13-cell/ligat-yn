@@ -1,8 +1,8 @@
 // ── League / registration configuration ────────────────────────────
 // Single source of truth for the numbers the PRD calls out.
 
-export const MIN_PLAYERS = 10
-export const MAX_PLAYERS = 10
+export const MIN_PLAYERS = 9
+export const MAX_PLAYERS = 9
 export const MAX_TEAMS = 16
 
 export const LEAGUE = {
