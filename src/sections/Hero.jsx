@@ -175,16 +175,16 @@ export default function Hero() {
           <Badge
             icon={<Emoji char="🎯" />}
             variant="subtle"
-            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-[9px] sm:!px-3 sm:!text-xs"
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs !py-1.5 sm:!px-3"
           >
             גילאי 15-18
           </Badge>
           <Badge
             icon={<Emoji char="💰" />}
             variant="subtle"
-            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs sm:!px-3"
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs !py-1.5 sm:!px-3"
           >
-            <span className="sm:hidden">{REGISTRATION_COST}₪ לשחקן</span>
+            <span className="sm:hidden">עלות {REGISTRATION_COST}₪</span>
             <span className="hidden sm:inline">עלות השתתפות: {REGISTRATION_COST}₪ לשחקן</span>
           </Badge>
         </motion.div>
