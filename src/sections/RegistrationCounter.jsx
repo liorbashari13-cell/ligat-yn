@@ -2,6 +2,7 @@ import { motion } from 'framer-motion'
 import Reveal from '../components/ui/Reveal.jsx'
 import ProgressBar from '../components/ui/ProgressBar.jsx'
 import Emoji from '../components/ui/Emoji.jsx'
+import { ANCHORS } from '../lib/constants.js'
 
 /**
  * Live registration counter. Receives count/max from the shared hook in
@@ -11,7 +12,7 @@ export default function RegistrationCounter({ count, max, loading }) {
   const remaining = Math.max(0, max - count)
 
   return (
-    <section className="px-5 py-16 md:px-8">
+    <section id={ANCHORS.counter} className="px-5 py-16 md:px-8">
       <Reveal>
         <div className="relative mx-auto max-w-3xl overflow-hidden rounded-3xl border border-gold/50 bg-gradient-to-br from-navy via-navy-deep to-dark p-8 text-center glow-gold md:p-12">
           {/* soft gold halo */}

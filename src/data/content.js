@@ -10,26 +10,26 @@ export const PLAYERS = [
   { name: 'רמי גרשון', role: 'שחקן עבר', image: '/players/rami-gershon.jpg' },
 ]
 
-// "?מה מחכה לכם" — prize cards.
+// "מה מחכה לכם" — prize cards. `icon` keys map to PRIZE_ICONS in About.jsx.
 export const ABOUT_CARDS = [
   {
-    icon: '🎁',
+    icon: 'gift',
     title: 'גיפט קארדים',
     text: 'בשווי אלפי שקלים לזוכים',
   },
   {
-    icon: '👕',
+    icon: 'shirt',
     title: 'חולצות כוכבי הכדורגל',
     text: 'לכל משתתף',
   },
   {
-    icon: '👟',
-    title: 'חליפת Adidas אישית',
-    text: 'חליפת כדורגל מבית Adidas לכל שחקן',
+    icon: 'shoe',
+    title: 'חליפת אדידס אישית',
+    text: 'חליפת כדורגל מבית אדידס לכל שחקן',
   },
   {
-    icon: '⭐',
-    title: 'משחק ראווה',
+    icon: 'star',
+    title: 'משחק מול כוכבים',
     text: 'מול שחקני ליגת העל ונבחרת ישראל',
   },
 ]

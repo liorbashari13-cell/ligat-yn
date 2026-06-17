@@ -2,7 +2,7 @@
 // Single source of truth for the numbers the PRD calls out.
 
 export const MIN_PLAYERS = 8 // Change this number to update minimum players required
-export const MAX_TEAMS = 19
+export const MAX_TEAMS = 16
 
 export const LEAGUE = {
   name: 'ליגת הלב היהודי',
@@ -21,6 +21,7 @@ export const ANCHORS = {
   hero: 'hero',
   about: 'about',
   bracket: 'bracket',
+  counter: 'counter',
   players: 'players',
   register: 'register',
 }

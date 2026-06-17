@@ -156,45 +156,114 @@ function FinalColumn() {
   )
 }
 
+// ── Mobile: stacked vertical layout ──────────────────────────────────
+// The horizontal bracket is unreadable on narrow screens, so below md we
+// show each round as a heading + a row of small pill badges instead.
+
+function DownArrow() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-5 w-5 text-gold/60" fill="currentColor" aria-hidden>
+      <path d="M12 17 5 10h14z" />
+    </svg>
+  )
+}
+
+function MobileRound({ label, count, numbered, sweepClass }) {
+  return (
+    <div className="w-full">
+      <div className="mb-3 flex items-center justify-center gap-2">
+        <span className="text-glow-gold text-sm font-extrabold tracking-wide text-gold">
+          {label}
+        </span>
+        <span className="rounded-full bg-gold/15 px-2 py-0.5 text-xs font-bold text-gold">
+          {count} קבוצות
+        </span>
+      </div>
+      <div className="flex flex-wrap items-center justify-center gap-2">
+        {Array.from({ length: count }, (_, i) => (
+          <motion.span
+            key={i}
+            initial={{ opacity: 0, scale: 0.7 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true, amount: 0.4 }}
+            transition={{ duration: 0.4, delay: i * 0.02, ease: 'easeOut' }}
+            className={`flex h-7 w-7 items-center justify-center rounded-full border border-gold/50 bg-gradient-to-b from-navy/60 to-dark-soft text-[10px] font-bold text-white ${sweepClass}`}
+          >
+            {numbered ? i + 1 : <FootballIcon className="h-3.5 w-3.5" />}
+          </motion.span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function MobileBracket() {
+  return (
+    <div className="flex flex-col items-center gap-1 md:hidden">
+      <MobileRound label="שמינית גמר" count={16} numbered sweepClass="animate-sweep-r16" />
+      <DownArrow />
+      <MobileRound label="רבע גמר" count={8} sweepClass="animate-sweep-qf" />
+      <DownArrow />
+      <MobileRound label="חצי גמר" count={4} sweepClass="animate-sweep-sf" />
+      <DownArrow />
+      <MobileRound label="גמר" count={2} sweepClass="animate-sweep-final" />
+      <DownArrow />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.7 }}
+        whileInView={{ opacity: 1, scale: 1 }}
+        viewport={{ once: true, amount: 0.5 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className="animate-trophy-glow mt-1 text-gold"
+      >
+        <TrophyIcon className="h-14 w-14" />
+      </motion.div>
+      <p className="mt-4 text-center text-sm font-bold text-gold text-glow-gold">
+        זוכי הגמר ישחקו משחק מול כוכבי ליגת העל ונבחרת ישראל
+      </p>
+    </div>
+  )
+}
+
 export default function TournamentBracket() {
   return (
     <Section id={ANCHORS.bracket} eyebrow="הדרך לגמר" title="מבנה הטורניר">
-      <div className="animate-trophy-glow mb-8 flex justify-center text-gold">
-        <TrophyIcon className="h-16 w-16 md:h-20 md:w-20" />
-      </div>
+      {/* Desktop: full horizontal bracket */}
+      <div className="hidden md:block">
+        <div className="animate-trophy-glow mb-4 flex justify-center text-gold">
+          <TrophyIcon className="h-16 w-16 md:h-20 md:w-20" />
+        </div>
+        <p className="mb-8 text-center text-base font-bold text-gold text-glow-gold">
+          זוכי הגמר ישחקו משחק מול כוכבי ליגת העל ונבחרת ישראל
+        </p>
 
-      <div className="rounded-3xl border border-gold/20 bg-gradient-to-b from-navy/25 to-transparent p-4 sm:p-6">
-        <div
-          className="scrollbar-gold overflow-x-auto pb-2"
-          dir="ltr"
-          style={{ scrollbarColor: '#f6c400 #131a24', scrollbarWidth: 'thin' }}
-        >
-          <div className="mx-auto flex w-max items-start">
-            <SlotColumn count={8} label="שמינית גמר" fromX={-16} sweepClass="animate-sweep-r16" startNumber={1} />
-            <BracketConnector count={8} />
-            <SlotColumn count={4} label="רבע גמר" fromX={-16} sweepClass="animate-sweep-qf" />
-            <BracketConnector count={4} />
-            <SlotColumn count={2} label="חצי גמר" fromX={-16} sweepClass="animate-sweep-sf" />
-            <BracketConnector count={2} />
-            <FinalColumn />
-            <BracketConnector count={2} mirrored />
-            <SlotColumn count={2} label="חצי גמר" fromX={16} sweepClass="animate-sweep-sf" />
-            <BracketConnector count={4} mirrored />
-            <SlotColumn count={4} label="רבע גמר" fromX={16} sweepClass="animate-sweep-qf" />
-            <BracketConnector count={8} mirrored />
-            <SlotColumn count={8} label="שמינית גמר" fromX={16} sweepClass="animate-sweep-r16" startNumber={9} />
+        <div className="rounded-3xl border border-gold/20 bg-gradient-to-b from-navy/25 to-transparent p-4 sm:p-6">
+          <div
+            className="scrollbar-gold overflow-x-auto pb-2"
+            dir="ltr"
+            style={{ scrollbarColor: '#f6c400 #131a24', scrollbarWidth: 'thin' }}
+          >
+            <div className="mx-auto flex w-max items-start">
+              <SlotColumn count={8} label="שמינית גמר" fromX={-16} sweepClass="animate-sweep-r16" startNumber={1} />
+              <BracketConnector count={8} />
+              <SlotColumn count={4} label="רבע גמר" fromX={-16} sweepClass="animate-sweep-qf" />
+              <BracketConnector count={4} />
+              <SlotColumn count={2} label="חצי גמר" fromX={-16} sweepClass="animate-sweep-sf" />
+              <BracketConnector count={2} />
+              <FinalColumn />
+              <BracketConnector count={2} mirrored />
+              <SlotColumn count={2} label="חצי גמר" fromX={16} sweepClass="animate-sweep-sf" />
+              <BracketConnector count={4} mirrored />
+              <SlotColumn count={4} label="רבע גמר" fromX={16} sweepClass="animate-sweep-qf" />
+              <BracketConnector count={8} mirrored />
+              <SlotColumn count={8} label="שמינית גמר" fromX={16} sweepClass="animate-sweep-r16" startNumber={9} />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="mt-3 flex items-center justify-center gap-2 text-sm text-white/50 md:hidden">
-        <motion.span
-          animate={{ x: [0, -6, 0] }}
-          transition={{ repeat: Infinity, duration: 1.4, ease: 'easeInOut' }}
-        >
-          ↔
-        </motion.span>
-        גלול לצפייה בכל הסבבים
+      {/* Mobile: stacked vertical bracket */}
+      <div className="rounded-3xl border border-gold/20 bg-gradient-to-b from-navy/25 to-transparent p-5 md:hidden">
+        <MobileBracket />
       </div>
     </Section>
   )
