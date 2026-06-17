@@ -3,7 +3,7 @@ import { AnimatePresence, motion } from 'framer-motion'
 import PlayerCard from './PlayerCard.jsx'
 import ProgressBar from '../../components/ui/ProgressBar.jsx'
 import GlowButton from '../../components/ui/GlowButton.jsx'
-import { MIN_PLAYERS } from '../../lib/constants.js'
+import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/constants.js'
 
 function emptyPlayer() {
   return { fullName: '', age: '', school: '', grade: '', phone: '', confirmed: false }
@@ -49,12 +49,9 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
       {/* Progress */}
       <div className="mb-6">
         <p className="mb-2 text-center font-bold text-white">
-          שחקן {Math.min(confirmedCount + (allConfirmed ? 0 : 1), Math.max(players.length, MIN_PLAYERS))} מתוך {MIN_PLAYERS}
+          {confirmedCount} / {MIN_PLAYERS} שחקנים אושרו
         </p>
         <ProgressBar value={confirmedCount} max={MIN_PLAYERS} />
-        <p className="mt-2 text-center text-sm text-white/60">
-          {confirmedCount}/{MIN_PLAYERS} שחקנים אושרו
-        </p>
       </div>
 
       <div className="space-y-3">
@@ -76,7 +73,7 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
       </div>
 
       {/* Add appears only when all cards are confirmed and cap not yet reached */}
-      {allConfirmed && players.length < MIN_PLAYERS && (
+      {allConfirmed && players.length < MAX_PLAYERS && (
         <button
           type="button"
           onClick={addPlayer}
@@ -99,9 +96,9 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
         </GlowButton>
       </div>
 
-      {!canProceed && (
+      {!canProceed && confirmedCount < MIN_PLAYERS && (
         <p className="mt-3 text-center text-sm text-white/50">
-          יש לאשר לפחות {MIN_PLAYERS} שחקנים כדי להמשיך
+          יש להוסיף עוד {MIN_PLAYERS - confirmedCount} שחקנים
         </p>
       )}
     </motion.div>

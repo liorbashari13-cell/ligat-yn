@@ -133,10 +133,10 @@ export default function Hero() {
 
         <motion.p
           variants={item}
-          className="mt-5 text-lg text-white/85 md:text-2xl"
+          className="mt-5 text-base text-white/85 sm:text-lg md:text-2xl"
         >
-          <span className="block">בואו לשחק בליגת הכדורגל של הלב היהודי לנערי נתניה</span>
-          <span className="block">ולזכות בשלל פרסים יוקרתיים</span>
+          <span className="block whitespace-nowrap">בואו לשחק בליגת הכדורגל של הלב היהודי</span>
+          <span className="block whitespace-nowrap">לנערי נתניה ולזכות בשלל פרסים יוקרתיים</span>
         </motion.p>
 
         <motion.div variants={item} className="mt-6">
@@ -149,11 +149,18 @@ export default function Hero() {
           variants={item}
           className="mx-auto mt-6 grid w-full max-w-xl grid-cols-2 gap-3"
         >
-          <Badge icon={<Emoji char="📅" />} className="w-full justify-center text-center">
+          <Badge
+            icon={<Emoji char="📅" />}
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-[9px] sm:!px-5 sm:!text-sm md:!text-base"
+          >
             {LEAGUE.startDate} | תחילת הליגה
           </Badge>
-          <Badge icon={<Emoji char="📍" />} className="w-full justify-center text-center">
-            {LEAGUE.stadium}
+          <Badge
+            icon={<Emoji char="📍" />}
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs sm:!px-5 sm:!text-sm md:!text-base"
+          >
+            <span className="sm:hidden">טוברוק, נתניה</span>
+            <span className="hidden sm:inline">{LEAGUE.stadium}</span>
           </Badge>
         </motion.div>
 
@@ -161,11 +168,20 @@ export default function Hero() {
           variants={item}
           className="mx-auto mt-3 grid w-full max-w-xl grid-cols-2 gap-2"
         >
-          <Badge icon={<Emoji char="🎯" />} variant="subtle" className="w-full justify-center text-center">
+          <Badge
+            icon={<Emoji char="🎯" />}
+            variant="subtle"
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-[9px] sm:!px-3 sm:!text-xs"
+          >
             גילאי 15-18
           </Badge>
-          <Badge icon={<Emoji char="💰" />} variant="subtle" className="w-full justify-center text-center">
-            עלות השתתפות: {REGISTRATION_COST}₪ לשחקן
+          <Badge
+            icon={<Emoji char="💰" />}
+            variant="subtle"
+            className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs sm:!px-3"
+          >
+            <span className="sm:hidden">{REGISTRATION_COST}₪ לשחקן</span>
+            <span className="hidden sm:inline">עלות השתתפות: {REGISTRATION_COST}₪ לשחקן</span>
           </Badge>
         </motion.div>
 

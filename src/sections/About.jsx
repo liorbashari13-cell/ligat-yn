@@ -74,7 +74,7 @@ export default function About() {
 
       <Reveal delay={0.4}>
         <p className="mt-8 text-center text-lg font-bold text-gold text-glow-gold">
-          !ועוד הרבה הפתעות שוות לכל המשתתפים 🎉
+          ועוד הרבה הפתעות שוות לכל המשתתפים 🎉
         </p>
       </Reveal>
     </Section>

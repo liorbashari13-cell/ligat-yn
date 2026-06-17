@@ -120,6 +120,16 @@ export default function RegistrationForm({ full, onSubmitted }) {
             </motion.div>
           ) : (
             <>
+              {/* Info box — shown before Step 1 begins */}
+              <div className="mb-6 rounded-xl border border-gold/50 bg-navy-deep/80 px-5 py-4 text-sm text-white/80">
+                <p className="mb-2 font-bold text-gold">📋 לפני שמתחילים - חשוב לדעת:</p>
+                <ul className="space-y-1.5">
+                  <li>• עליך למלא פרטים עבור כל 10 שחקני הקבוצה</li>
+                  <li>• בסיום הרישום תועברו לשיחה עם נועם לאישור בריאותי ותשלום</li>
+                  <li>• רישומכם יאושר סופית רק לאחר השיחה עם נועם</li>
+                </ul>
+              </div>
+
               <StepIndicator current={step} />
               <AnimatePresence mode="wait">
                 {step === 1 && (

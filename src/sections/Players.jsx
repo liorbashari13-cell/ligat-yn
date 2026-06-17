@@ -11,7 +11,7 @@ export default function Players() {
       eyebrow="ליגת העל ונבחרת ישראל"
       title="הכוכבים שתפגשו"
     >
-      <div className="grid grid-cols-2 gap-5 sm:grid-cols-3">
+      <div className="grid grid-cols-3 gap-1.5 sm:gap-5">
         {PLAYERS.map((player, i) => (
           <Reveal key={player.name} delay={(i % 3) * 0.08}>
             <motion.div
@@ -29,11 +29,11 @@ export default function Players() {
                 <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-dark-soft to-transparent" />
               </div>
 
-              <div className="relative px-3 py-4">
-                <h3 className="text-base font-extrabold text-white md:text-lg">
+              <div className="relative px-1.5 py-2.5 sm:px-3 sm:py-4">
+                <h3 className="truncate text-[11px] font-extrabold text-white sm:text-base md:text-lg">
                   {player.name}
                 </h3>
-                <p className="mt-1 text-sm font-semibold text-gold">
+                <p className="mt-0.5 truncate text-[9px] font-semibold text-gold sm:mt-1 sm:text-sm">
                   {player.role}
                 </p>
               </div>
