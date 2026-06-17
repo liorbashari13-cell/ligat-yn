@@ -5,6 +5,7 @@ import { GRADES } from './constants.js'
 
 // Israeli mobile: 05X-XXXXXXX (10 digits, optional dash after the prefix).
 const PHONE_RE = /^05\d-?\d{7}$/
+const SCHOOL_RE = /^[א-תa-zA-Z\s]+$/
 // Requires local part + @ + domain + dot + TLD of at least 2 alpha chars.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/
 
@@ -44,6 +45,7 @@ export function validateTeam(data) {
   if (!isValidIsraeliPhone(data.phone)) errors.phone = 'מספר טלפון לא תקין (05X-XXXXXXX)'
   if (!isValidEmail(data.email)) errors.email = 'כתובת מייל לא תקינה'
   if (!required(data.school)) errors.school = 'נא להזין בית ספר'
+  else if (!SCHOOL_RE.test(data.school.trim())) errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
   if (!GRADES.includes(data.grade)) errors.grade = 'נא לבחור שכבה'
   if (!required(data.city)) errors.city = 'נא להזין עיר מגורים'
   // neighborhood is optional — no check.
@@ -63,6 +65,7 @@ export function validatePlayer(player) {
     errors.age = 'הגיל חייב להיות בין 15 ל-18'
   }
   if (!required(player.school)) errors.school = 'נא להזין בית ספר'
+  else if (!SCHOOL_RE.test(player.school.trim())) errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
   if (!GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'
   if (!isValidIsraeliPhone(player.phone)) errors.phone = 'טלפון לא תקין'
   return errors
