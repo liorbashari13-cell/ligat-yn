@@ -131,6 +131,9 @@ export default function RegistrationForm({ full, onSubmitted }) {
                 </svg>
                 פתח שיחה עם נועם לאישור ותשלום 💬
               </a>
+              <p className="mt-5 text-center text-xs text-white/45">
+                📧 אישור הרישום נשלח למייל שלך — אם לא קיבלת, בדוק בתיקיית הספאם שבמייל
+              </p>
             </motion.div>
           ) : (
             <>
