@@ -184,7 +184,7 @@ export default function Hero() {
             variant="subtle"
             className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs !py-1.5 sm:!px-3"
           >
-            <span className="sm:hidden">עלות {REGISTRATION_COST}₪</span>
+            <span className="sm:hidden">עלות {REGISTRATION_COST}₪ לשחקן</span>
             <span className="hidden sm:inline">עלות השתתפות: {REGISTRATION_COST}₪ לשחקן</span>
           </Badge>
         </motion.div>
