@@ -15,23 +15,23 @@ export const PLAYERS = [
 // "מה מחכה לכם" — prize cards. `icon` keys map to PRIZE_ICONS in About.jsx.
 export const ABOUT_CARDS = [
   {
-    icon: 'gift',
-    title: 'גיפט קארדים',
-    text: 'בשווי אלפי שקלים לזוכים',
-  },
-  {
-    icon: 'shirt',
-    title: 'חולצות כוכבי הכדורגל',
-    text: 'לכל משתתף',
+    icon: 'star',
+    title: 'משחק ראווה',
+    text: 'מול שחקני ליגת העל ונבחרת ישראל!',
   },
   {
     icon: 'shoe',
-    title: 'חליפת אדידס אישית',
-    text: 'חליפת כדורגל מבית אדידס לכל שחקן',
+    title: 'חליפת כדורגל אישית',
+    text: 'לכל שחקן!',
   },
   {
-    icon: 'star',
-    title: 'משחק מול כוכבים',
-    text: 'מול שחקני ליגת העל ונבחרת ישראל',
+    icon: 'shirt',
+    title: 'חולצות שחקן',
+    text: 'של כוכבי הכדורגל - עומר אצילי ועוד',
+  },
+  {
+    icon: 'gift',
+    title: 'גיפט קארדים',
+    text: 'בשווי אלפי שקלים',
   },
 ]
