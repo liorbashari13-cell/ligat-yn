@@ -27,7 +27,10 @@ function ShirtIcon({ className }) {
 function ShoeIcon({ className }) {
   return (
     <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
-      <path d="M2 17a1 1 0 0 1 1-1h1.2l2.1-3.1c.3-.4.8-.6 1.3-.5l4.6 1c.4.1.8 0 1.1-.3l1.6-1.5c.4-.4 1-.5 1.5-.2l3 1.7c.5.3.8.8.8 1.4V16h1.8a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-1z" />
+      {/* waistband */}
+      <rect x="3" y="4" width="18" height="3" rx="1.5" />
+      {/* shorts body — two legs divided by a centre V-notch */}
+      <path d="M3 7 L3 16 Q3.5 19.5 7 19.5 L10.5 19.5 L12 14 L13.5 19.5 L17 19.5 Q20.5 19.5 21 16 L21 7 Z" />
     </svg>
   )
 }
