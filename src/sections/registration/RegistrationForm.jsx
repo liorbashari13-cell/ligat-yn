@@ -163,6 +163,7 @@ export default function RegistrationForm({ full, onSubmitted }) {
                   <StepPlayers
                     key="step2"
                     players={players}
+                    team={team}
                     onChange={setPlayers}
                     onNext={() => goTo(3)}
                     onBack={() => goTo(1)}

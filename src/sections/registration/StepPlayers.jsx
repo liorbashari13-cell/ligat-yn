@@ -15,7 +15,7 @@ function emptyPlayer() {
  * when every existing card is confirmed. Step 3 is blocked until at least
  * MIN_PLAYERS players are confirmed (and none are left open).
  */
-export default function StepPlayers({ players, onChange, onNext, onBack }) {
+export default function StepPlayers({ players, team, onChange, onNext, onBack }) {
   // Ensure there's always at least one card to fill in.
   useEffect(() => {
     if (players.length === 0) onChange([emptyPlayer()])
@@ -24,6 +24,31 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
   const confirmedCount = players.filter((p) => p.confirmed).length
   const allConfirmed = players.length > 0 && players.every((p) => p.confirmed)
   const canProceed = allConfirmed && confirmedCount >= MIN_PLAYERS
+
+  // Returns dup errors for idNumber/email against the rep and other confirmed players.
+  const checkDuplicates = (player, currentIndex) => {
+    const errors = {}
+    const id = player.idNumber?.trim()
+    const email = player.email?.trim().toLowerCase()
+
+    if (id) {
+      const repMatch = id === team?.idNumber?.trim()
+      const peerMatch = players.some(
+        (p, i) => i !== currentIndex && p.confirmed && p.idNumber?.trim() === id,
+      )
+      if (repMatch || peerMatch) errors.idNumber = 'תעודת זהות זו כבר הוזנה לשחקן אחר בקבוצה'
+    }
+
+    if (email) {
+      const repMatch = email === team?.email?.trim().toLowerCase()
+      const peerMatch = players.some(
+        (p, i) => i !== currentIndex && p.confirmed && p.email?.trim().toLowerCase() === email,
+      )
+      if (repMatch || peerMatch) errors.email = 'כתובת מייל זו כבר הוזנה לשחקן אחר בקבוצה'
+    }
+
+    return errors
+  }
 
   const updateAt = (index, next) =>
     onChange(players.map((p, i) => (i === index ? next : p)))
@@ -68,6 +93,7 @@ export default function StepPlayers({ players, onChange, onNext, onBack }) {
               onEdit={() => editAt(i)}
               onRemove={() => removeAt(i)}
               canRemove={players.length > 1}
+              getDuplicateErrors={(p) => checkDuplicates(p, i)}
             />
           ))}
         </AnimatePresence>

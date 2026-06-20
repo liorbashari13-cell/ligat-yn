@@ -20,6 +20,7 @@ export default function PlayerCard({
   onEdit,
   onRemove,
   canRemove,
+  getDuplicateErrors,
 }) {
   const [errors, setErrors] = useState({})
 
@@ -30,8 +31,10 @@ export default function PlayerCard({
 
   const confirm = () => {
     const found = validatePlayer(player)
-    setErrors(found)
-    if (!hasErrors(found)) onConfirm()
+    const dups = getDuplicateErrors ? getDuplicateErrors(player) : {}
+    const combined = { ...found, ...dups }
+    setErrors(combined)
+    if (!hasErrors(combined)) onConfirm()
   }
 
   if (!editing) {
