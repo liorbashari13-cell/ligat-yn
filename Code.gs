@@ -1,6 +1,6 @@
 const SHEET_ID = '1HVReujh4o6HUwwmiqyG4YQYVUo7EOr2J8hmM5YuL6bw';
 const SENDER_EMAIL = 'ligat.yn@gmail.com';
-const MAX_TEAMS = 19;
+const MAX_TEAMS = 16;
 const ALERT_AT = 15;
 
 function doPost(e) {
@@ -24,6 +24,7 @@ function doPost(e) {
     data.grade,
     data.city,
     data.neighborhood || '',
+    // players: [{ fullName, age, school, grade, phone, idNumber, email }, ...]
     JSON.stringify(data.players),
     currentCount + 1
   ]);

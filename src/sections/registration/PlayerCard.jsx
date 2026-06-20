@@ -88,6 +88,8 @@ export default function PlayerCard({
           ))}
         </Field>
         <Field label="טלפון" name="phone" type="tel" inputMode="tel" placeholder="05X-XXXXXXX" ltr value={player.phone} onChange={update} error={errors.phone} />
+        <Field label="תעודת זהות" name="idNumber" type="text" inputMode="numeric" placeholder="9 ספרות" ltr value={player.idNumber} onChange={update} error={errors.idNumber} />
+        <Field label="מייל" name="email" type="email" inputMode="email" ltr value={player.email} onChange={update} error={errors.email} />
       </div>
 
       <div className="mt-5 flex justify-center">

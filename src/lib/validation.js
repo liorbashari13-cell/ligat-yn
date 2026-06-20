@@ -8,6 +8,8 @@ const PHONE_RE = /^05\d-?\d{7}$/
 const SCHOOL_RE = /^[א-תa-zA-Z\s]+$/
 // Requires local part + @ + domain + dot + TLD of at least 2 alpha chars.
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[a-zA-Z]{2,}$/
+// Israeli ID: exactly 9 digits.
+const ID_RE = /^\d{9}$/
 
 export function isValidIsraeliPhone(value) {
   return PHONE_RE.test(String(value).trim())
@@ -15,6 +17,10 @@ export function isValidIsraeliPhone(value) {
 
 export function isValidEmail(value) {
   return EMAIL_RE.test(String(value).trim())
+}
+
+export function isValidIdNumber(value) {
+  return ID_RE.test(String(value).trim())
 }
 
 // Normalize a phone to 05X-XXXXXXX for display/storage.
@@ -42,6 +48,7 @@ export function validateTeam(data) {
   } else if (!isFullName(data.contactName)) {
     errors.contactName = 'יש להזין שם פרטי ושם משפחה'
   }
+  if (!isValidIdNumber(data.idNumber)) errors.idNumber = 'תעודת זהות חייבת להכיל 9 ספרות'
   if (!isValidIsraeliPhone(data.phone)) errors.phone = 'מספר טלפון לא תקין (05X-XXXXXXX)'
   if (!isValidEmail(data.email)) errors.email = 'כתובת מייל לא תקינה'
   if (!required(data.school)) errors.school = 'נא להזין בית ספר'
@@ -68,6 +75,8 @@ export function validatePlayer(player) {
   else if (!SCHOOL_RE.test(player.school.trim())) errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
   if (!GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'
   if (!isValidIsraeliPhone(player.phone)) errors.phone = 'טלפון לא תקין'
+  if (!isValidIdNumber(player.idNumber)) errors.idNumber = 'תעודת זהות חייבת להכיל 9 ספרות'
+  if (!isValidEmail(player.email)) errors.email = 'כתובת מייל לא תקינה'
   return errors
 }
 

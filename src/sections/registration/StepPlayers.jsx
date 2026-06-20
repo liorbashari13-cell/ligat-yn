@@ -6,7 +6,7 @@ import GlowButton from '../../components/ui/GlowButton.jsx'
 import { MAX_PLAYERS, MIN_PLAYERS } from '../../lib/constants.js'
 
 function emptyPlayer() {
-  return { fullName: '', age: '', school: '', grade: '', phone: '', confirmed: false }
+  return { fullName: '', age: '', school: '', grade: '', phone: '', idNumber: '', email: '', confirmed: false }
 }
 
 /**

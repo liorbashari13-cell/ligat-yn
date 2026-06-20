@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import GlowButton from '../../components/ui/GlowButton.jsx'
 
@@ -12,8 +13,44 @@ function Row({ label, value, ltr }) {
   )
 }
 
+// Returns an error string if any ID or email appears more than once across
+// the representative (in team) and all players.
+function findDuplicateError(team, players) {
+  const allIds = [team.idNumber, ...players.map((p) => p.idNumber)]
+  const allEmails = [team.email, ...players.map((p) => p.email)].map((e) =>
+    String(e ?? '').toLowerCase().trim(),
+  )
+
+  const seenIds = new Set()
+  for (const id of allIds) {
+    if (!id) continue
+    if (seenIds.has(id)) return 'תעודת זהות זו כבר הוזנה לשחקן אחר בקבוצה'
+    seenIds.add(id)
+  }
+
+  const seenEmails = new Set()
+  for (const email of allEmails) {
+    if (!email) continue
+    if (seenEmails.has(email)) return 'כתובת מייל זו כבר הוזנה לשחקן אחר בקבוצה'
+    seenEmails.add(email)
+  }
+
+  return null
+}
+
 export default function StepSummary({ team, players, onSubmit, onBack, status, error }) {
   const submitting = status === 'submitting'
+  const [dupError, setDupError] = useState(null)
+
+  const handleSubmit = () => {
+    const dup = findDuplicateError(team, players)
+    if (dup) {
+      setDupError(dup)
+      return
+    }
+    setDupError(null)
+    onSubmit()
+  }
 
   return (
     <motion.div
@@ -27,6 +64,7 @@ export default function StepSummary({ team, players, onSubmit, onBack, status, e
         <h4 className="mb-3 text-lg font-extrabold text-gold">פרטי הקבוצה</h4>
         <Row label="שם הקבוצה" value={team.teamName} />
         <Row label="שם הנציג" value={team.contactName} />
+        <Row label="ת&quot;ז נציג" value={team.idNumber} ltr />
         <Row label="טלפון" value={team.phone} ltr />
         <Row label="מייל" value={team.email} ltr />
         <Row label="בית ספר" value={team.school} />
@@ -44,22 +82,22 @@ export default function StepSummary({ team, players, onSubmit, onBack, status, e
           {players.map((p, i) => (
             <div
               key={i}
-              className="flex justify-between gap-4 rounded-lg bg-navy/30 px-3 py-2"
+              className="flex flex-wrap justify-between gap-2 rounded-lg bg-navy/30 px-3 py-2"
             >
               <span className="font-semibold text-white">
                 {i + 1}. {p.fullName}
               </span>
               <span className="text-sm text-white/60">
-                גיל {p.age} · שכבה {p.grade}
+                ת&quot;ז {p.idNumber} · גיל {p.age}
               </span>
             </div>
           ))}
         </div>
       </div>
 
-      {error && (
+      {(dupError || error) && (
         <p className="mt-4 text-center text-sm font-semibold text-red-400">
-          {error}
+          {dupError || error}
         </p>
       )}
 
@@ -72,7 +110,7 @@ export default function StepSummary({ team, players, onSubmit, onBack, status, e
         >
           → חזרה
         </button>
-        <GlowButton onClick={onSubmit} disabled={submitting} pulse className="!px-10">
+        <GlowButton onClick={handleSubmit} disabled={submitting} pulse className="!px-10">
           {submitting ? 'שולח…' : 'שלח רישום'}
         </GlowButton>
       </div>

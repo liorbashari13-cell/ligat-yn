@@ -29,6 +29,7 @@ export default function StepTeam({ data, onChange, onNext }) {
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="שם הקבוצה" name="teamName" value={data.teamName} onChange={update} error={errors.teamName} />
         <Field label="שם הנציג (שם מלא)" name="contactName" note="הנציג הוא גם שחקן מספר 1 בקבוצה" value={data.contactName} onChange={update} error={errors.contactName} />
+        <Field label="תעודת זהות" name="idNumber" type="text" inputMode="numeric" placeholder="9 ספרות" ltr value={data.idNumber} onChange={update} error={errors.idNumber} />
         <Field label="טלפון" name="phone" type="tel" inputMode="tel" placeholder="05X-XXXXXXX" ltr value={data.phone} onChange={update} error={errors.phone} />
         <Field label="מייל" name="email" type="email" inputMode="email" ltr note="לצורך אישור הרישום" value={data.email} onChange={update} error={errors.email} />
         <Field label="בית ספר" name="school" value={data.school} onChange={update} error={errors.school} />

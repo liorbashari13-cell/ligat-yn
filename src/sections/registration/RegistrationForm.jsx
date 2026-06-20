@@ -14,6 +14,7 @@ import { ANCHORS } from '../../lib/constants.js'
 const EMPTY_TEAM = {
   teamName: '',
   contactName: '',
+  idNumber: '',
   phone: '',
   email: '',
   school: '',
