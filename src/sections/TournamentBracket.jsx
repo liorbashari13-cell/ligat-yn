@@ -166,14 +166,30 @@ function BracketConnector({ count }) {
 function FinalColumn() {
   return (
     <Column label="גמר">
-      <div className="flex h-full flex-col items-center justify-center gap-3">
-        <BracketSlot sweepClass="animate-sweep-final" />
+      {/*
+       * Use absolute positioning so the slot center sits at exactly 50% of the
+       * column — matching the connector's yMid=50% output line.
+       * justify-center would center the (slot+trophy) group, pushing the slot
+       * center up to ~44%, which misaligns with the connector.
+       */}
+      <div className="relative h-full">
+        {/* Slot: top-1/2 + -translate-y-1/2 → center pinned to 50% */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.85 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true, amount: 0.4 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          className="animate-sweep-final absolute left-1/2 top-1/2 flex h-10 w-24 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-lg border border-gold/50 bg-gradient-to-b from-navy/60 to-dark-soft sm:h-11 sm:w-28 md:h-12 md:w-32"
+        >
+          <FootballIcon className="h-4 w-4 shrink-0 sm:h-5 sm:w-5" />
+        </motion.div>
+        {/* Trophy: slot-bottom (50% + 24px at md:h-12) + 12px gap = 50% + 36px */}
         <motion.div
           initial={{ opacity: 0, scale: 0.7 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true, amount: 0.4 }}
           transition={{ duration: 0.5, delay: 0.15, ease: 'easeOut' }}
-          className="animate-trophy-glow flex h-10 w-10 items-center justify-center rounded-full border border-gold bg-gradient-to-b from-navy/70 to-dark-soft text-gold sm:h-12 sm:w-12"
+          className="animate-trophy-glow absolute left-1/2 -translate-x-1/2 flex h-10 w-10 items-center justify-center rounded-full border border-gold bg-gradient-to-b from-navy/70 to-dark-soft text-gold sm:h-12 sm:w-12 top-[calc(50%+36px)]"
         >
           <TrophyIcon className="h-5 w-5 sm:h-7 sm:w-7" />
         </motion.div>
