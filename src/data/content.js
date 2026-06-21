@@ -10,7 +10,7 @@ export const PLAYERS = [
   { name: 'אייל גולאסה', role: 'שחקן עבר', image: '/players/eyal-golasa.webp' },
   { name: 'איתן אזולאי', role: 'שחקן מכבי חיפה ונבחרת ישראל', image: '/players/itan-azulay.jpg' },
   { name: 'טל בן חיים', role: 'שחקן עבר', image: '/players/tal-ben-haim.jpg' },
-  { name: 'חן עזרא', role: 'שחקן עבר', image: '/players/chen-ezra.jpg' },
+  { name: 'חן עזרא', role: 'שחקן עבר', image: '/players/chen-ezra.png' },
 ]
 
 // "מה מחכה לכם" — prize cards. `icon` keys map to PRIZE_ICONS in About.jsx.
