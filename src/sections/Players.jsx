@@ -11,9 +11,9 @@ export default function Players() {
       eyebrow="ליגת העל ונבחרת ישראל"
       title="הכוכבים שתפגשו"
     >
-      <div className="grid grid-cols-4 gap-1.5 sm:gap-4">
+      <div className="flex flex-wrap justify-center gap-1.5 sm:gap-4">
         {PLAYERS.map((player, i) => (
-          <Reveal key={player.name} delay={(i % 4) * 0.08}>
+          <Reveal key={player.name} delay={(i % 4) * 0.08} className="flex-none w-[calc(25%-4.5px)] sm:w-[calc(25%-12px)]">
             <motion.div
               whileHover={{ y: -10 }}
               transition={{ type: 'spring', stiffness: 300, damping: 18 }}
