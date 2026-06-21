@@ -216,3 +216,32 @@ body {
 .scrollbar-gold::-webkit-scrollbar-thumb:hover {
   background: var(--color-gold-light);
 }
+
+/* ── Accessibility modes ──────────────────────────────────────────
+   Toggled via AccessibilityWidget on the <html> element. */
+
+html.a11y-high-contrast {
+  --color-dark: #000000;
+  --color-dark-soft: #0a0a0a;
+  --color-navy: #000033;
+  --color-navy-deep: #00001a;
+  --color-gold: #ffdd00;
+  --color-gold-light: #ffee66;
+}
+
+html.a11y-high-contrast body {
+  color: #ffffff;
+}
+
+html.a11y-high-contrast a,
+html.a11y-high-contrast button {
+  outline-offset: 2px;
+}
+
+html.a11y-no-animations *,
+html.a11y-no-animations *::before,
+html.a11y-no-animations *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+}

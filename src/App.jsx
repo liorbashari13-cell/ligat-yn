@@ -1,29 +1,18 @@
-import Navbar from './sections/Navbar.jsx'
-import Hero from './sections/Hero.jsx'
-import About from './sections/About.jsx'
-import TournamentBracket from './sections/TournamentBracket.jsx'
-import RegistrationCounter from './sections/RegistrationCounter.jsx'
-import Players from './sections/Players.jsx'
-import RegistrationForm from './sections/registration/RegistrationForm.jsx'
-import Footer from './sections/Footer.jsx'
-import { useRegistrationCount } from './hooks/useRegistrationCount.js'
+import { Routes, Route } from 'react-router-dom'
+import HomePage from './pages/HomePage.jsx'
+import PrivacyPage from './pages/PrivacyPage.jsx'
+import AccessibilityPage from './pages/AccessibilityPage.jsx'
+import AccessibilityWidget from './components/AccessibilityWidget.jsx'
 
 export default function App() {
-  // Single polling source — shared by the counter and the form.
-  const { count, max, full, loading, refresh } = useRegistrationCount()
-
   return (
-    <div className="min-h-screen overflow-x-hidden">
-      <Navbar />
-      <main>
-        <Hero />
-        <About />
-        <TournamentBracket />
-        <RegistrationCounter count={count} max={max} loading={loading} />
-        <Players />
-        <RegistrationForm full={full} onSubmitted={refresh} />
-      </main>
-      <Footer />
-    </div>
+    <>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="/accessibility" element={<AccessibilityPage />} />
+      </Routes>
+      <AccessibilityWidget />
+    </>
   )
 }

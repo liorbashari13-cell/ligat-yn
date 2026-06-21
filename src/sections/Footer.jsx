@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { LEAGUE } from '../lib/constants.js'
 
 export default function Footer() {
@@ -29,6 +30,15 @@ export default function Footer() {
         <p className="mt-4 text-xs text-white/40">
           © 2026 {LEAGUE.name}. כל הזכויות שמורות.
         </p>
+        <div className="flex gap-4 text-xs text-white/30">
+          <Link to="/privacy" className="transition-colors hover:text-white/60">
+            מדיניות פרטיות
+          </Link>
+          <span aria-hidden>·</span>
+          <Link to="/accessibility" className="transition-colors hover:text-white/60">
+            הצהרת נגישות
+          </Link>
+        </div>
       </div>
     </footer>
   )
