@@ -13,8 +13,6 @@ function Row({ label, value, ltr }) {
   )
 }
 
-// Returns an error string if any ID or email appears more than once across
-// the representative (in team) and all players.
 function findDuplicateError(team, players) {
   const allIds = [team.idNumber, ...players.map((p) => p.idNumber)]
   const allEmails = [team.email, ...players.map((p) => p.email)].map((e) =>
@@ -38,18 +36,45 @@ function findDuplicateError(team, players) {
   return null
 }
 
+function Checkmark() {
+  return (
+    <svg viewBox="0 0 12 9" className="h-3 w-3" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M1 4.5L4.5 8L11 1" />
+    </svg>
+  )
+}
+
 export default function StepSummary({ team, players, onSubmit, onBack, status, error }) {
   const submitting = status === 'submitting'
   const [dupError, setDupError] = useState(null)
+  const [termsChecked, setTermsChecked] = useState(false)
+  const [termsTimestamp, setTermsTimestamp] = useState(null)
+  const [termsError, setTermsError] = useState(null)
+
+  const handleTermsChange = (e) => {
+    const checked = e.target.checked
+    setTermsChecked(checked)
+    if (checked) {
+      setTermsTimestamp(new Date().toISOString())
+      setTermsError(null)
+    } else {
+      setTermsTimestamp(null)
+    }
+  }
 
   const handleSubmit = () => {
+    if (!termsChecked) {
+      setTermsError('יש לאשר את התנאים לפני שליחת הרישום')
+      return
+    }
     const dup = findDuplicateError(team, players)
     if (dup) {
       setDupError(dup)
       return
     }
     setDupError(null)
-    onSubmit()
+    setTermsError(null)
+    onSubmit({ termsAcknowledged: termsTimestamp })
   }
 
   return (
@@ -95,11 +120,43 @@ export default function StepSummary({ team, players, onSubmit, onBack, status, e
         </div>
       </div>
 
-      {(dupError || error) && (
-        <p className="mt-4 text-center text-sm font-semibold text-red-400">
-          {dupError || error}
-        </p>
+      {dupError && (
+        <p className="mt-4 text-center text-sm font-semibold text-red-400">{dupError}</p>
       )}
+      {error && (
+        <p className="mt-4 text-center text-sm font-semibold text-red-400">{error}</p>
+      )}
+
+      {/* Terms acknowledgement */}
+      <div className={`mt-6 rounded-xl border p-4 transition-colors ${termsError ? 'border-red-400/60 bg-red-400/5' : 'border-gold/30 bg-navy/30'}`}>
+        <label className="flex cursor-pointer items-start gap-3">
+          {/* Custom gold checkbox */}
+          <div className="relative mt-0.5 flex-shrink-0">
+            <input
+              type="checkbox"
+              checked={termsChecked}
+              onChange={handleTermsChange}
+              className="absolute inset-0 h-full w-full cursor-pointer opacity-0"
+              aria-label="אישור תנאי השתתפות"
+            />
+            <div
+              className={`flex h-5 w-5 items-center justify-center rounded border-2 transition-all duration-150 ${
+                termsChecked
+                  ? 'border-gold bg-gold text-navy-deep'
+                  : 'border-gold/50 bg-dark-soft/80 text-transparent'
+              }`}
+            >
+              <Checkmark />
+            </div>
+          </div>
+          <span className="text-sm leading-relaxed text-white/80">
+            קראתי ואני מאשר/ת כי מילוי טופס זה אינו מהווה הרשמה סופית. ההשתתפות בטורניר מותנית בחתימה פיזית על תקנון והצהרת בריאות בתיאום עם נועם עזרא.
+          </span>
+        </label>
+        {termsError && (
+          <p className="mt-2 pe-1 text-xs font-semibold text-red-400">{termsError}</p>
+        )}
+      </div>
 
       <div className="mt-8 flex flex-wrap items-center justify-between gap-3">
         <button
@@ -110,7 +167,12 @@ export default function StepSummary({ team, players, onSubmit, onBack, status, e
         >
           → חזרה
         </button>
-        <GlowButton onClick={handleSubmit} disabled={submitting} pulse className="!px-10">
+        <GlowButton
+          onClick={handleSubmit}
+          disabled={!termsChecked || submitting}
+          pulse
+          className="!px-10"
+        >
           {submitting ? 'שולח…' : 'שלח רישום'}
         </GlowButton>
       </div>

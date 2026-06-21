@@ -56,11 +56,12 @@ export default function RegistrationForm({ full, onSubmitted }) {
     document.getElementById(ANCHORS.register)?.scrollIntoView({ behavior: 'smooth' })
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = async ({ termsAcknowledged } = {}) => {
     setStatus('submitting')
     setError('')
     const payload = {
       ...team,
+      termsAcknowledged,
       players: players.map(({ confirmed, ...p }) => p), // eslint-disable-line no-unused-vars
     }
     try {
