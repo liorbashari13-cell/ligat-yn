@@ -34,6 +34,24 @@ function VolumeOffIcon() {
     </svg>
   )
 }
+// RotateCcw — rewind 5s
+function SeekBackIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <polyline points="3 3 3 8 8 8" />
+    </svg>
+  )
+}
+// RotateCw — fast-forward 5s
+function SeekForwardIcon() {
+  return (
+    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden>
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <polyline points="21 3 21 8 16 8" />
+    </svg>
+  )
+}
 
 // ── Helpers ────────────────────────────────────────────────────────
 function showIframe(ref) {
@@ -43,17 +61,25 @@ function hideIframe(ref) {
   if (ref.current) ref.current.style.opacity = '0'
 }
 
+function startPlayback(playerRef, iframeRef, setIsPlaying) {
+  showIframe(iframeRef)
+  setIsPlaying(true)
+  playerRef.current?.playVideo?.()
+}
+
 export default function VideoSection() {
-  const playerRef = useRef(null)
-  const mountRef = useRef(null)
-  const iframeRef = useRef(null)   // the actual <iframe> element injected by YT
-  const sectionRef = useRef(null)
+  const playerRef      = useRef(null)
+  const mountRef       = useRef(null)
+  const iframeRef      = useRef(null)   // the <iframe> element injected by YT
+  const sectionRef     = useRef(null)
   const playerReadyRef = useRef(false)
   const wantsUnmutedRef = useRef(false)
+  const wasVisibleRef  = useRef(false)  // section was in view before/when player became ready
+  const hasStartedRef  = useRef(false)  // playVideo() has been called at least once
 
-  const [playerReady, setPlayerReady] = useState(false)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [isMuted, setIsMuted] = useState(true)
+  const [playerReady,  setPlayerReady]  = useState(false)
+  const [isPlaying,    setIsPlaying]    = useState(false)
+  const [isMuted,      setIsMuted]      = useState(true)
   const [bannerVisible, setBannerVisible] = useState(true)
 
   // ── YouTube IFrame API ─────────────────────────────────────────
@@ -92,8 +118,13 @@ export default function VideoSection() {
             }
             playerReadyRef.current = true
             setPlayerReady(true)
-            setIsPlaying(true)
-            e.target.playVideo()
+
+            // If the section was already visible when the player became ready,
+            // start immediately. Otherwise the IntersectionObserver handles it.
+            if (wasVisibleRef.current && !hasStartedRef.current) {
+              hasStartedRef.current = true
+              startPlayback(playerRef, iframeRef, setIsPlaying)
+            }
           },
           onStateChange(e) {
             const S = window.YT.PlayerState
@@ -132,17 +163,25 @@ export default function VideoSection() {
     return () => playerRef.current?.destroy?.()
   }, [])
 
-  // ── Auto-pause when section scrolls out of view (>= 50% hidden) ─
+  // ── IntersectionObserver: first-play trigger + auto-pause on exit ─
   useEffect(() => {
     const el = sectionRef.current
     if (!el) return
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (!entry.isIntersecting && playerReadyRef.current) {
+        if (entry.isIntersecting) {
+          wasVisibleRef.current = true
+          // First time section becomes visible and player is ready → start playback
+          if (playerReadyRef.current && !hasStartedRef.current) {
+            hasStartedRef.current = true
+            startPlayback(playerRef, iframeRef, setIsPlaying)
+          }
+          // If player isn't ready yet, onReady will fire and check wasVisibleRef
+        } else if (playerReadyRef.current) {
+          // Section scrolled out — pause. Do NOT auto-resume when it comes back.
           playerRef.current?.pauseVideo?.()
-          // onStateChange(PAUSED) will handle hiding the iframe + setIsPlaying(false)
+          // onStateChange(PAUSED) handles hideIframe + setIsPlaying(false)
         }
-        // Intentionally no auto-resume when scrolling back in
       },
       { threshold: 0.5 },
     )
@@ -163,13 +202,10 @@ export default function VideoSection() {
     if (!playerReadyRef.current) return
     if (isPlaying) {
       playerRef.current?.pauseVideo?.()
-      // iframe hidden + isPlaying=false handled by onStateChange(PAUSED)
+      // onStateChange(PAUSED) handles hideIframe + setIsPlaying(false)
     } else {
-      // Show iframe immediately so there's no flash between overlay removal
-      // and the PLAYING state event arriving from the player.
-      showIframe(iframeRef)
-      setIsPlaying(true)
-      playerRef.current?.playVideo?.()
+      // Show iframe eagerly to avoid flash between overlay removal and PLAYING event
+      startPlayback(playerRef, iframeRef, setIsPlaying)
     }
   }
 
@@ -187,9 +223,22 @@ export default function VideoSection() {
     }
   }
 
+  // Seek: while paused the thumbnail overlay stays (position updates invisibly;
+  // playback resumes from the new position when the user presses play).
+  const seek = (delta) => {
+    if (!playerReadyRef.current) return
+    const current = playerRef.current.getCurrentTime?.() ?? 0
+    const duration = playerRef.current.getDuration?.() ?? Infinity
+    const next = Math.max(0, Math.min(current + delta, duration - 0.1))
+    playerRef.current.seekTo(next, true)
+  }
+
+  const seekBack    = () => seek(-5)
+  const seekForward = () => seek(5)
+
   // Pause overlay: shown whenever the player is ready but not playing.
-  // Covers both manual pause, scroll-triggered pause, and any initial
-  // paused state before the first playback begins.
+  // Covers manual pause, scroll-triggered pause, and the initial state
+  // before first playback begins.
   const showPauseOverlay = playerReady && !isPlaying
 
   return (
@@ -207,9 +256,9 @@ export default function VideoSection() {
           Z-index stack (bottom → top):
             iframe        (z-auto, opacity toggled) — video content
             init-thumb    (z-[1])  — placeholder while API script loads
-            blocker       (z-[2])  — always; blocks all YT native UI pointer events
+            blocker       (z-[2])  — transparent; blocks all YT native UI pointer events
             pause-overlay (z-[3])  — thumbnail + play button when paused
-            controls      (z-10)   — our play/mute pill (always after ready)
+            controls      (z-10)   — our controls pill (always after ready)
             banner        (z-20)   — initial full-area unmute prompt
         */}
         <div
@@ -256,9 +305,20 @@ export default function VideoSection() {
             )}
           </AnimatePresence>
 
-          {/* Custom controls pill — always visible once player is ready */}
+          {/* Custom controls pill — always visible once player is ready.
+              dir="ltr" keeps button order consistent regardless of page RTL. */}
           {playerReady && (
-            <div className="absolute bottom-3 end-3 z-10 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/65 p-1 backdrop-blur-sm">
+            <div
+              dir="ltr"
+              className="absolute bottom-3 end-3 z-10 flex items-center gap-0.5 rounded-xl border border-white/20 bg-black/65 p-1 backdrop-blur-sm"
+            >
+              <button
+                onClick={seekBack}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/15 active:bg-white/25"
+                aria-label="חזור 5 שניות"
+              >
+                <SeekBackIcon />
+              </button>
               <button
                 onClick={togglePlay}
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/15 active:bg-white/25"
@@ -266,6 +326,14 @@ export default function VideoSection() {
               >
                 {isPlaying ? <PauseIcon /> : <PlayIcon />}
               </button>
+              <button
+                onClick={seekForward}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/15 active:bg-white/25"
+                aria-label="קדם 5 שניות"
+              >
+                <SeekForwardIcon />
+              </button>
+              <div className="mx-0.5 h-4 w-px bg-white/20" />
               <button
                 onClick={toggleMute}
                 className="flex h-8 w-8 items-center justify-center rounded-lg text-white transition-colors hover:bg-white/15 active:bg-white/25"
