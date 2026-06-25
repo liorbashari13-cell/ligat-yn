@@ -35,9 +35,18 @@ function VolumeOffIcon() {
   )
 }
 
+// ── Helpers ────────────────────────────────────────────────────────
+function showIframe(ref) {
+  if (ref.current) ref.current.style.opacity = '1'
+}
+function hideIframe(ref) {
+  if (ref.current) ref.current.style.opacity = '0'
+}
+
 export default function VideoSection() {
   const playerRef = useRef(null)
   const mountRef = useRef(null)
+  const iframeRef = useRef(null)   // the actual <iframe> element injected by YT
   const sectionRef = useRef(null)
   const playerReadyRef = useRef(false)
   const wantsUnmutedRef = useRef(false)
@@ -68,12 +77,14 @@ export default function VideoSection() {
         },
         events: {
           onReady(e) {
-            // Stretch injected iframe to fill the relative container
-            Object.assign(e.target.getIframe().style, {
+            const iframe = e.target.getIframe()
+            iframeRef.current = iframe
+            Object.assign(iframe.style, {
               position: 'absolute',
               inset: '0',
               width: '100%',
               height: '100%',
+              opacity: '1',
             })
             if (wantsUnmutedRef.current) {
               e.target.unMute()
@@ -81,19 +92,22 @@ export default function VideoSection() {
             }
             playerReadyRef.current = true
             setPlayerReady(true)
-            e.target.playVideo()
             setIsPlaying(true)
+            e.target.playVideo()
           },
           onStateChange(e) {
             const S = window.YT.PlayerState
-            if (e.data === S.ENDED) {
-              e.target.seekTo(0)
-              e.target.playVideo()
-              setIsPlaying(true)
-            } else if (e.data === S.PLAYING) {
+            if (e.data === S.PLAYING) {
+              showIframe(iframeRef)
               setIsPlaying(true)
             } else if (e.data === S.PAUSED) {
+              // Hide the iframe so YouTube's paused-state overlay (title,
+              // logo, big play button) never shows — we render our own instead.
+              hideIframe(iframeRef)
               setIsPlaying(false)
+            } else if (e.data === S.ENDED) {
+              e.target.seekTo(0)
+              e.target.playVideo()
             }
           },
         },
@@ -126,7 +140,7 @@ export default function VideoSection() {
       ([entry]) => {
         if (!entry.isIntersecting && playerReadyRef.current) {
           playerRef.current?.pauseVideo?.()
-          setIsPlaying(false)
+          // onStateChange(PAUSED) will handle hiding the iframe + setIsPlaying(false)
         }
         // Intentionally no auto-resume when scrolling back in
       },
@@ -149,10 +163,13 @@ export default function VideoSection() {
     if (!playerReadyRef.current) return
     if (isPlaying) {
       playerRef.current?.pauseVideo?.()
-      setIsPlaying(false)
+      // iframe hidden + isPlaying=false handled by onStateChange(PAUSED)
     } else {
-      playerRef.current?.playVideo?.()
+      // Show iframe immediately so there's no flash between overlay removal
+      // and the PLAYING state event arriving from the player.
+      showIframe(iframeRef)
       setIsPlaying(true)
+      playerRef.current?.playVideo?.()
     }
   }
 
@@ -170,6 +187,11 @@ export default function VideoSection() {
     }
   }
 
+  // Pause overlay: shown whenever the player is ready but not playing.
+  // Covers both manual pause, scroll-triggered pause, and any initial
+  // paused state before the first playback begins.
+  const showPauseOverlay = playerReady && !isPlaying
+
   return (
     <section ref={sectionRef} className="bg-dark py-14 md:py-20">
       {/* Heading */}
@@ -183,17 +205,18 @@ export default function VideoSection() {
       <div className="flex justify-center px-5">
         {/*
           Z-index stack (bottom → top):
-            iframe     (z-auto) — video content
-            thumbnail  (z-[1])  — placeholder while API loads
-            blocker    (z-[2])  — transparent; hides & blocks all YT native UI
-            controls   (z-10)   — our play/mute pill
-            banner     (z-20)   — full-area initial unmute prompt
+            iframe        (z-auto, opacity toggled) — video content
+            init-thumb    (z-[1])  — placeholder while API script loads
+            blocker       (z-[2])  — always; blocks all YT native UI pointer events
+            pause-overlay (z-[3])  — thumbnail + play button when paused
+            controls      (z-10)   — our play/mute pill (always after ready)
+            banner        (z-20)   — initial full-area unmute prompt
         */}
         <div
           className="relative w-full max-w-[320px] overflow-hidden rounded-2xl bg-dark-soft sm:max-w-[380px]"
           style={{ aspectRatio: '9 / 16' }}
         >
-          {/* Thumbnail — visible while the API script loads */}
+          {/* Thumbnail shown while the API script is still loading */}
           {!playerReady && (
             <div
               className="absolute inset-0 z-[1] bg-cover bg-center"
@@ -204,12 +227,34 @@ export default function VideoSection() {
           {/* YT IFrame API replaces this div with its <iframe> */}
           <div ref={mountRef} />
 
-          {/*
-            Full-cover transparent blocker.
-            Sits above the iframe so YouTube's native title, avatar,
-            logo, and play/skip controls are never reachable by pointer.
-          */}
+          {/* Full-cover transparent blocker — hides & blocks YT native UI */}
           <div className="absolute inset-0 z-[2]" />
+
+          {/* Pause overlay — replaces the iframe visually while paused */}
+          <AnimatePresence>
+            {showPauseOverlay && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.15 }}
+                className="absolute inset-0 z-[3] bg-cover bg-center"
+                style={{ backgroundImage: `url('${THUMB_URL}')` }}
+              >
+                {/* Centered play button */}
+                <button
+                  onClick={togglePlay}
+                  className="absolute inset-0 flex items-center justify-center"
+                  aria-label="הפעל"
+                >
+                  <span className="flex items-center gap-2 rounded-xl border border-white/25 bg-black/65 px-5 py-2.5 font-bold text-white backdrop-blur-sm">
+                    <PlayIcon />
+                    <span className="text-sm">הפעל</span>
+                  </span>
+                </button>
+              </motion.div>
+            )}
+          </AnimatePresence>
 
           {/* Custom controls pill — always visible once player is ready */}
           {playerReady && (
