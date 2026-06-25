@@ -1,5 +1,6 @@
 import Navbar from '../sections/Navbar.jsx'
 import Hero from '../sections/Hero.jsx'
+import VideoSection from '../sections/VideoSection.jsx'
 import About from '../sections/About.jsx'
 import TournamentBracket from '../sections/TournamentBracket.jsx'
 import RegistrationCounter from '../sections/RegistrationCounter.jsx'
@@ -16,6 +17,7 @@ export default function HomePage() {
       <Navbar />
       <main>
         <Hero />
+        <VideoSection />
         <About />
         <TournamentBracket />
         <RegistrationCounter count={count} max={max} loading={loading} />
