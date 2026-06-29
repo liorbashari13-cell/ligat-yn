@@ -141,7 +141,7 @@ export default function Hero() {
 
         <motion.div variants={item} className="mt-6">
           <span className="animate-gold-pulse inline-flex items-center gap-2 rounded-full border border-gold-accent/60 bg-gold-accent/10 px-5 py-2.5 text-sm font-bold text-gold-accent backdrop-blur-md md:text-base">
-            <Emoji char="⚡" /> וצ'אנס לשחק מול שחקני ליגת העל ונבחרת ישראל!
+            <Emoji char="⚡" /> ובואו לשחק מול שחקני ליגת העל ונבחרת ישראל!
           </span>
         </motion.div>
 
@@ -177,7 +177,7 @@ export default function Hero() {
             variant="subtle"
             className="w-full justify-center whitespace-nowrap text-center !px-2.5 !text-xs !py-1.5 sm:!px-3"
           >
-            גילאי 15-18
+            גילאי 15-21
           </Badge>
           <Badge
             icon={<Emoji char="💰" />}

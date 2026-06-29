@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-Hebrew **RTL** landing page for a youth football (soccer) league in Netanya, Israel — **ליגת הלב היהודי** (Lev HaYehudi League), ages 15-18. Single-page marketing site, animation-heavy, with a multi-step team-registration form backed by Google Apps Script + Sheets.
+Hebrew **RTL** landing page for a youth football (soccer) league in Netanya, Israel — **ליגת הלב היהודי** (Lev HaYehudi League), ages 15-21. Single-page marketing site, animation-heavy, with a multi-step team-registration form backed by Google Apps Script + Sheets.
 
 ## Commands
 

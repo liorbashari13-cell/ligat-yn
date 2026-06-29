@@ -7,7 +7,7 @@ export const MAX_TEAMS = 16
 
 export const LEAGUE = {
   name: 'ליגת הלב היהודי',
-  startDate: '1.7.2026',
+  startDate: '4.7.2026',
   stadium: 'איצטדיון טוברוק, נתניה',
   email: 'ligat.yn@gmail.com',
   phone: '053-278-7225',

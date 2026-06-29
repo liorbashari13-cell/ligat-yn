@@ -44,7 +44,7 @@ function doPost(e) {
           <li>שכבה: ${data.grade}</li>
           <li>מספר שחקנים: ${data.players.length}</li>
         </ul>
-        <p><strong>תאריך תחילת הליגה: 1.7.2026</strong></p>
+        <p><strong>תאריך תחילת הליגה: 4.7.2026</strong></p>
         <p><strong>מיקום: איצטדיון טוברוק, נתניה</strong></p>
         <p>.נציג שלנו יצור איתך קשר בקרוב עם פרטים נוספים</p>
         <p>!בהצלחה 🎯</p>
