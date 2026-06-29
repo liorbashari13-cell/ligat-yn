@@ -1,7 +1,6 @@
 import { motion } from 'framer-motion'
 import Section from '../components/ui/Section.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
-import Emoji from '../components/ui/Emoji.jsx'
 import { ABOUT_CARDS } from '../data/content.js'
 import { ANCHORS } from '../lib/constants.js'
 
@@ -44,12 +43,17 @@ function StarIcon({ className }) {
   )
 }
 
-// 💰 emoji, sized/centered to match the h-12 SVG icons (1em = text-5xl ≈ 48px).
 function MoneyIcon({ className }) {
   return (
-    <span className={`flex items-center justify-center text-5xl ${className}`}>
-      <Emoji char="💰" />
-    </span>
+    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
+      {/* gathered neck */}
+      <path d="M8.6 3h6.8c.39 0 .59.47.32.76l-1.86 2.01c1.05.43 1.27 1.23.27 1.43H9.86c-1-.2-.78-1 .27-1.43L8.28 3.76C8.01 3.47 8.21 3 8.6 3z" />
+      {/* bag body */}
+      <path d="M9.5 7.7h5c1.7 1.6 4.5 5.1 4.5 8.3C19 19.3 16.2 21 12 21s-7-1.7-7-5c0-3.2 2.8-6.7 4.5-8.3z" />
+      {/* $ mark */}
+      <path d="M12 10.4v7" fill="none" stroke="#0d1117" strokeWidth="1.1" strokeLinecap="round" opacity="0.55" />
+      <path d="M13.9 11.9c-.5-.6-1.2-.9-1.9-.9-1.1 0-2 .5-2 1.5 0 2.2 4 1.1 4 3.3 0 1-1 1.6-2.1 1.6-.8 0-1.6-.3-2-.9" fill="none" stroke="#0d1117" strokeWidth="1.1" strokeLinecap="round" strokeLinejoin="round" opacity="0.55" />
+    </svg>
   )
 }
 

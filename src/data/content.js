@@ -32,6 +32,6 @@ export const ABOUT_CARDS = [
   },
   {
     icon: 'money',
-    title: 'פרס כספי בשווי ₪25,000',
+    title: 'פרסים בשווי ₪25,000',
   },
 ]

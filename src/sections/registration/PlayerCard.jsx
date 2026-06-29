@@ -83,8 +83,8 @@ export default function PlayerCard({
       <div className="grid gap-4 sm:grid-cols-2">
         <Field label="שם מלא" name="fullName" value={player.fullName} onChange={update} error={errors.fullName} />
         <Field label="גיל" name="age" type="number" inputMode="numeric" value={player.age} onChange={update} error={errors.age} />
-        <Field label="בית ספר" name="school" value={player.school} onChange={update} error={errors.school} note="רלוונטי רק אם אתם עדיין בבית ספר" />
-        <Field label="שכבה" name="grade" as="select" value={player.grade} onChange={update} error={errors.grade} note="רלוונטי רק אם אתם עדיין בבית ספר">
+        <Field label="בית ספר" name="school" value={player.school} onChange={update} error={errors.school} note="שדה זה הוא חובה לגילאי 15-17" />
+        <Field label="שכבה" name="grade" as="select" value={player.grade} onChange={update} error={errors.grade} note="שדה זה הוא חובה לגילאי 15-17">
           <option value="">בחר שכבה</option>
           {GRADES.map((g) => (
             <option key={g} value={g}>{g}</option>

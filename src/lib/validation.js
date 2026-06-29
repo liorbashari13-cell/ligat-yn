@@ -74,12 +74,18 @@ export function validatePlayer(player) {
   if (!player.age || Number.isNaN(age) || age < 15 || age > 21) {
     errors.age = 'הגיל חייב להיות בין 15 ל-21'
   }
-  // school & grade are optional (relevant only for players still in school),
-  // but if a value is entered it must still be valid.
-  if (required(player.school) && !SCHOOL_RE.test(player.school.trim())) {
+  // school & grade are required for school-age players (15-17), and optional
+  // for ages 18+. When age isn't entered yet, treat as optional (the age
+  // error blocks submission anyway). When a value IS entered it must be valid.
+  const schoolAgeRequired = Boolean(player.age) && !Number.isNaN(age) && age >= 15 && age <= 17
+  if (schoolAgeRequired && !required(player.school)) {
+    errors.school = 'נא להזין בית ספר'
+  } else if (required(player.school) && !SCHOOL_RE.test(player.school.trim())) {
     errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
   }
-  if (player.grade && !GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'
+  if (schoolAgeRequired ? !GRADES.includes(player.grade) : (player.grade && !GRADES.includes(player.grade))) {
+    errors.grade = 'נא לבחור שכבה'
+  }
   if (!isValidIsraeliPhone(player.phone)) errors.phone = 'טלפון לא תקין'
   if (!isValidIdNumber(player.idNumber)) errors.idNumber = 'תעודת זהות חייבת להכיל 9 ספרות'
   if (!isValidEmail(player.email)) errors.email = 'כתובת מייל לא תקינה'
