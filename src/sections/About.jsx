@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion'
 import Section from '../components/ui/Section.jsx'
 import Reveal from '../components/ui/Reveal.jsx'
+import Emoji from '../components/ui/Emoji.jsx'
 import { ABOUT_CARDS } from '../data/content.js'
 import { ANCHORS } from '../lib/constants.js'
 
@@ -43,16 +44,12 @@ function StarIcon({ className }) {
   )
 }
 
+// 💰 emoji, sized/centered to match the h-12 SVG icons (1em = text-5xl ≈ 48px).
 function MoneyIcon({ className }) {
   return (
-    <svg viewBox="0 0 24 24" className={className} fill="currentColor" aria-hidden>
-      {/* wings */}
-      <path d="M5 9c-2 0-3.4 1.1-4 2.6 1.4-.7 2.6-.6 3.6-.1-1.3.3-2.3 1.1-2.8 2.4 1.3-.8 2.5-.8 3.6-.4l1.6-3.9C6.6 9.2 5.8 9 5 9zM19 9c2 0 3.4 1.1 4 2.6-1.4-.7-2.6-.6-3.6-.1 1.3.3 2.3 1.1 2.8 2.4-1.3-.8-2.5-.8-3.6-.4l-1.6-3.9C17.4 9.2 18.2 9 19 9z" />
-      {/* banknote */}
-      <rect x="6" y="8" width="12" height="9" rx="1.2" />
-      <rect x="7.2" y="9.4" width="9.6" height="6.2" rx="0.8" fill="#0d1117" opacity="0.55" />
-      <circle cx="12" cy="12.5" r="2.1" />
-    </svg>
+    <span className={`flex items-center justify-center text-5xl ${className}`}>
+      <Emoji char="💰" />
+    </span>
   )
 }
 

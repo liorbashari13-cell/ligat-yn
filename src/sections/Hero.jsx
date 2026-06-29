@@ -189,7 +189,13 @@ export default function Hero() {
           </Badge>
         </motion.div>
 
-        <motion.div variants={item} className="mt-10">
+        <motion.div variants={item} className="mt-8">
+          <span className="glow-gold inline-flex items-center gap-2.5 rounded-2xl border-2 border-gold bg-gold/10 px-6 py-3 text-lg font-extrabold text-gold text-glow-gold backdrop-blur-md sm:text-2xl">
+            <Emoji char="🏆" /> פרסים בשווי 25,000 ₪!
+          </span>
+        </motion.div>
+
+        <motion.div variants={item} className="mt-8">
           <GlowButton onClick={goToRegister} pulse className="!px-10 !py-5 !text-xl">
             ← רשום את הקבוצה שלך!
           </GlowButton>
