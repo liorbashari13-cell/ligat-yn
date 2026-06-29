@@ -32,8 +32,8 @@ export default function StepTeam({ data, onChange, onNext }) {
         <Field label="תעודת זהות" name="idNumber" type="text" inputMode="numeric" placeholder="9 ספרות" ltr value={data.idNumber} onChange={update} error={errors.idNumber} />
         <Field label="טלפון" name="phone" type="tel" inputMode="tel" placeholder="05X-XXXXXXX" ltr value={data.phone} onChange={update} error={errors.phone} />
         <Field label="מייל" name="email" type="email" inputMode="email" ltr note="לצורך אישור הרישום" value={data.email} onChange={update} error={errors.email} />
-        <Field label="בית ספר" name="school" value={data.school} onChange={update} error={errors.school} />
-        <Field label="שכבה" name="grade" as="select" value={data.grade} onChange={update} error={errors.grade}>
+        <Field label="בית ספר" name="school" value={data.school} onChange={update} error={errors.school} note="רלוונטי רק אם אתם עדיין בבית ספר" />
+        <Field label="שכבה" name="grade" as="select" value={data.grade} onChange={update} error={errors.grade} note="רלוונטי רק אם אתם עדיין בבית ספר">
           <option value="">בחר שכבה</option>
           {GRADES.map((g) => (
             <option key={g} value={g}>{g}</option>

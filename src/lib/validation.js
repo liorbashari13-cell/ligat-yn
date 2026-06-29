@@ -51,9 +51,12 @@ export function validateTeam(data) {
   if (!isValidIdNumber(data.idNumber)) errors.idNumber = 'תעודת זהות חייבת להכיל 9 ספרות'
   if (!isValidIsraeliPhone(data.phone)) errors.phone = 'מספר טלפון לא תקין (05X-XXXXXXX)'
   if (!isValidEmail(data.email)) errors.email = 'כתובת מייל לא תקינה'
-  if (!required(data.school)) errors.school = 'נא להזין בית ספר'
-  else if (!SCHOOL_RE.test(data.school.trim())) errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
-  if (!GRADES.includes(data.grade)) errors.grade = 'נא לבחור שכבה'
+  // school & grade are optional (relevant only if still in school),
+  // but if a value is entered it must still be valid.
+  if (required(data.school) && !SCHOOL_RE.test(data.school.trim())) {
+    errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
+  }
+  if (data.grade && !GRADES.includes(data.grade)) errors.grade = 'נא לבחור שכבה'
   if (!required(data.city)) errors.city = 'נא להזין עיר מגורים'
   // neighborhood is optional — no check.
   return errors
@@ -71,9 +74,12 @@ export function validatePlayer(player) {
   if (!player.age || Number.isNaN(age) || age < 15 || age > 21) {
     errors.age = 'הגיל חייב להיות בין 15 ל-21'
   }
-  if (!required(player.school)) errors.school = 'נא להזין בית ספר'
-  else if (!SCHOOL_RE.test(player.school.trim())) errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
-  if (!GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'
+  // school & grade are optional (relevant only for players still in school),
+  // but if a value is entered it must still be valid.
+  if (required(player.school) && !SCHOOL_RE.test(player.school.trim())) {
+    errors.school = 'שם בית הספר חייב להכיל אותיות בלבד'
+  }
+  if (player.grade && !GRADES.includes(player.grade)) errors.grade = 'נא לבחור שכבה'
   if (!isValidIsraeliPhone(player.phone)) errors.phone = 'טלפון לא תקין'
   if (!isValidIdNumber(player.idNumber)) errors.idNumber = 'תעודת זהות חייבת להכיל 9 ספרות'
   if (!isValidEmail(player.email)) errors.email = 'כתובת מייל לא תקינה'

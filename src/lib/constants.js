@@ -15,7 +15,7 @@ export const LEAGUE = {
 }
 
 // Per-player participation fee, displayed prominently on the page.
-export const REGISTRATION_COST = 180
+export const REGISTRATION_COST = 100
 
 // Section anchors (used by navbar scroll + form target).
 export const ANCHORS = {
