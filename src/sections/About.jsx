@@ -82,7 +82,7 @@ export default function About() {
                 <h3 className="mb-2 text-2xl font-extrabold text-gold">
                   {card.title}
                 </h3>
-                <p className="text-white/75">{card.text}</p>
+                {card.text && <p className="text-white/75">{card.text}</p>}
               </motion.div>
             </Reveal>
           )

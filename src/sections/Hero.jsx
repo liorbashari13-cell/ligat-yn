@@ -155,9 +155,9 @@ export default function Hero() {
           >
             <span className="sm:hidden flex flex-col items-center leading-tight">
               <span>{LEAGUE.startDate}</span>
-              <span>תחילת הליגה</span>
+              <span>תחילת הליגה וסיום הרשמה</span>
             </span>
-            <span className="hidden sm:inline whitespace-nowrap">{LEAGUE.startDate} | תחילת הליגה</span>
+            <span className="hidden sm:inline whitespace-nowrap">{LEAGUE.startDate} | תחילת הליגה וסיום הרשמה</span>
           </Badge>
           <Badge
             icon={<Emoji char="📍" />}
