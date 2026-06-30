@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import Reveal from '../components/ui/Reveal.jsx'
 
-const VIDEO_ID = 'nti2eDOCMTg'
+const VIDEO_ID = 'DO7LQvYMoWU'
 const THUMB_URL = `https://img.youtube.com/vi/${VIDEO_ID}/hqdefault.jpg`
 
 // ── Inline icons ───────────────────────────────────────────────────
