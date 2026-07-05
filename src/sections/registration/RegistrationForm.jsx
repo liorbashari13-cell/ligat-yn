@@ -9,7 +9,7 @@ import RegistrationClosed from './RegistrationClosed.jsx'
 import Emoji from '../../components/ui/Emoji.jsx'
 import { submitRegistration } from '../../lib/api.js'
 import { clearProgress, loadProgress, saveProgress } from '../../lib/storage.js'
-import { ANCHORS } from '../../lib/constants.js'
+import { ANCHORS, MIN_PLAYERS, MIN_PLAYERS_UNLOCKED, ROSTER_UNLOCK_CODE } from '../../lib/constants.js'
 
 const EMPTY_TEAM = {
   teamName: '',
@@ -41,15 +41,19 @@ export default function RegistrationForm({ full, onSubmitted }) {
   const [step, setStep] = useState(saved.current?.step ?? 1)
   const [team, setTeam] = useState(saved.current?.team ?? EMPTY_TEAM)
   const [players, setPlayers] = useState(saved.current?.players ?? [])
+  const [rosterCode, setRosterCode] = useState(saved.current?.rosterCode ?? '')
   const [status, setStatus] = useState('idle') // idle | submitting | success | error
   const [error, setError] = useState('')
   const [successTeam, setSuccessTeam] = useState('')
 
+  // Correct override code lowers the minimum roster; anything else is normal.
+  const minPlayers = rosterCode === ROSTER_UNLOCK_CODE ? MIN_PLAYERS_UNLOCKED : MIN_PLAYERS
+
   // Persist progress on every change (PRD: survive a browser close).
   useEffect(() => {
     if (status === 'success') return
-    saveProgress({ step, team, players })
-  }, [step, team, players, status])
+    saveProgress({ step, team, players, rosterCode })
+  }, [step, team, players, rosterCode, status])
 
   const goTo = (n) => {
     setStep(n)
@@ -143,7 +147,7 @@ export default function RegistrationForm({ full, onSubmitted }) {
               <div className="mb-6 rounded-xl border border-gold/50 bg-navy-deep/80 px-5 py-4 text-sm text-white/80">
                 <p className="mb-2 font-bold text-gold">📋 לפני שמתחילים - חשוב לדעת:</p>
                 <ul className="space-y-1.5">
-                  <li>• מספר משתתפים בקבוצה הוא 10 בדיוק</li>
+                  <li>• מספר משתתפים בקבוצה הוא {minPlayers + 1} בדיוק</li>
                   <li>• בסיום הרישום תועברו לאחראי הטורניר כדי למלא טופסי הצהרת בריאות ותקנון</li>
                   <li>• ללא מילוי טפסים אלו לא ניתן להשתתף בטורניר</li>
                   <li>• הרישום יאושר סופית על ידינו בהתאם לכמות הקבוצות הפנויות - ההרשמה מוגבלת</li>
@@ -158,6 +162,8 @@ export default function RegistrationForm({ full, onSubmitted }) {
                     data={team}
                     onChange={setTeam}
                     onNext={() => goTo(2)}
+                    code={rosterCode}
+                    onCodeChange={setRosterCode}
                   />
                 )}
                 {step === 2 && (
@@ -165,6 +171,7 @@ export default function RegistrationForm({ full, onSubmitted }) {
                     key="step2"
                     players={players}
                     team={team}
+                    minPlayers={minPlayers}
                     onChange={setPlayers}
                     onNext={() => goTo(3)}
                     onBack={() => goTo(1)}

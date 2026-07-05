@@ -5,6 +5,12 @@ export const MIN_PLAYERS = 9
 export const MAX_PLAYERS = 9
 export const MAX_TEAMS = 16
 
+// Secret override: entering ROSTER_UNLOCK_CODE in the step-1 "קוד" field lowers
+// the minimum roster (representative + others) from MIN_PLAYERS + 1 to
+// MIN_PLAYERS_UNLOCKED + 1. Empty/wrong value → normal MIN_PLAYERS applies.
+export const MIN_PLAYERS_UNLOCKED = 7
+export const ROSTER_UNLOCK_CODE = '12345678'
+
 export const LEAGUE = {
   name: 'ליגת הלב היהודי',
   startDate: '4.7.2026',

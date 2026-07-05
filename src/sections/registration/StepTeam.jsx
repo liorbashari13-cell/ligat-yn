@@ -5,7 +5,7 @@ import GlowButton from '../../components/ui/GlowButton.jsx'
 import { GRADES } from '../../lib/constants.js'
 import { formatPhone, hasErrors, validateTeam } from '../../lib/validation.js'
 
-export default function StepTeam({ data, onChange, onNext }) {
+export default function StepTeam({ data, onChange, onNext, code = '', onCodeChange }) {
   const [errors, setErrors] = useState({})
 
   const update = (e) => {
@@ -41,6 +41,20 @@ export default function StepTeam({ data, onChange, onNext }) {
         </Field>
         <Field label="עיר מגורים" name="city" value={data.city} onChange={update} error={errors.city} />
         <Field label="שכונה" name="neighborhood" note="אופציונלי" value={data.neighborhood} onChange={update} error={errors.neighborhood} />
+      </div>
+
+      {/* Unobtrusive override code — regular users have no reason to touch it. */}
+      <div className="mt-6">
+        <input
+          type="password"
+          name="rosterCode"
+          value={code}
+          onChange={(e) => onCodeChange?.(e.target.value)}
+          placeholder="קוד"
+          autoComplete="off"
+          aria-label="קוד"
+          className="w-full max-w-[120px] rounded-md border border-white/10 bg-transparent px-3 py-1.5 text-xs text-white/30 placeholder-white/20 outline-none transition-colors focus:border-white/25 focus:text-white/60"
+        />
       </div>
 
       <div className="mt-8 flex justify-center">

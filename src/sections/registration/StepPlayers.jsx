@@ -15,7 +15,7 @@ function emptyPlayer() {
  * when every existing card is confirmed. Step 3 is blocked until at least
  * MIN_PLAYERS players are confirmed (and none are left open).
  */
-export default function StepPlayers({ players, team, onChange, onNext, onBack }) {
+export default function StepPlayers({ players, team, minPlayers = MIN_PLAYERS, onChange, onNext, onBack }) {
   // Ensure there's always at least one card to fill in.
   useEffect(() => {
     if (players.length === 0) onChange([emptyPlayer()])
@@ -23,7 +23,7 @@ export default function StepPlayers({ players, team, onChange, onNext, onBack })
 
   const confirmedCount = players.filter((p) => p.confirmed).length
   const allConfirmed = players.length > 0 && players.every((p) => p.confirmed)
-  const canProceed = allConfirmed && confirmedCount >= MIN_PLAYERS
+  const canProceed = allConfirmed && confirmedCount >= minPlayers
 
   // Returns dup errors for idNumber/email against the rep and other confirmed players.
   const checkDuplicates = (player, currentIndex) => {
@@ -74,9 +74,9 @@ export default function StepPlayers({ players, team, onChange, onNext, onBack })
       {/* Progress */}
       <div className="mb-6">
         <p className="mb-2 text-center font-bold text-white">
-          שחקן {Math.min(confirmedCount + 2, MIN_PLAYERS + 1)} מתוך {MIN_PLAYERS + 1}
+          שחקן {Math.min(confirmedCount + 2, minPlayers + 1)} מתוך {minPlayers + 1}
         </p>
-        <ProgressBar value={confirmedCount} max={MIN_PLAYERS} />
+        <ProgressBar value={confirmedCount} max={minPlayers} />
       </div>
 
       <div className="space-y-3">
@@ -123,9 +123,9 @@ export default function StepPlayers({ players, team, onChange, onNext, onBack })
         </GlowButton>
       </div>
 
-      {!canProceed && confirmedCount < MIN_PLAYERS && (
+      {!canProceed && confirmedCount < minPlayers && (
         <p className="mt-3 text-center text-sm text-white/50">
-          יש להוסיף עוד {MIN_PLAYERS - confirmedCount} שחקנים
+          יש להוסיף עוד {minPlayers - confirmedCount} שחקנים
         </p>
       )}
     </motion.div>
