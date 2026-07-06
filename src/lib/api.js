@@ -15,7 +15,7 @@ function isConfigured() {
  * we fall back to count 0 so the page still renders gracefully.
  */
 export async function getRegistrationCount() {
-  if (!isConfigured()) return { count: 12, max: MAX_TEAMS, configured: false }
+  if (!isConfigured()) return { count: 14, max: MAX_TEAMS, configured: false }
   try {
     const res = await fetch(URL, { method: 'GET' })
     const data = await res.json()
@@ -25,7 +25,7 @@ export async function getRegistrationCount() {
       configured: true,
     }
   } catch {
-    return { count: 12, max: MAX_TEAMS, configured: true, error: true }
+    return { count: 14, max: MAX_TEAMS, configured: true, error: true }
   }
 }
 
